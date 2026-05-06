@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document · Growth Challenge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --surface: rgba(255,255,255,0.03);
+    --surface-hi: rgba(255,255,255,0.05);
+    --hairline: rgba(255,255,255,0.06);
+    --hairline-hi: rgba(255,255,255,0.12);
+    --text: #f5f4f0;
+    --text-soft: #b5b3ad;
+    --text-mute: #6b6963;
+    --accent: #e9c79a;
+    --accent-soft: rgba(233,199,154,0.12);
+    --green: #6dd58c;
+    --rose: #f0a59a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(ellipse 50% 30% at 90% 0%, rgba(233,199,154,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 0% 60%, rgba(240,165,154,0.05) 0%, transparent 60%);
+    background-attachment: fixed;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4' /%3E%3C/svg%3E");
+    opacity: 0.025; pointer-events: none; z-index: 1;
+  }
+  .container { max-width: 780px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 2; }
+
+  /* Nav */
+  .top-nav { position: sticky; top: 0; z-index: 50; padding: 1rem 0; }
+  .top-nav-inner {
+    max-width: 780px; margin: 0 auto;
+    padding: .625rem 1rem .625rem 1.25rem;
+    background: rgba(10,10,12,0.6);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .back-link {
+    color: var(--text-soft); font-size: .8125rem; font-weight: 500;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: .375rem;
+    transition: color .25s;
+  }
+  .back-link:hover { color: var(--text); }
+  .nav-tag {
+    font-size: .6875rem; font-weight: 500;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--text-mute);
+    max-width: 50%; text-align: right;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+
+  /* Doc shell */
+  .doc {
+    padding: 4rem 0 2rem;
+  }
+
+  /* Markdown content styles */
+  .md-content {
+    font-size: .9375rem;
+    color: var(--text-soft);
+  }
+
+  .md-content h1 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    line-height: 1.06;
+    letter-spacing: -0.025em;
+    color: var(--text);
+    margin: 0 0 1.25rem;
+  }
+  .md-content h1 em { font-style: italic; color: var(--accent); }
+
+  .md-content h2 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(1.625rem, 3.5vw, 2rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin: 3rem 0 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--hairline);
+  }
+  .md-content h2:first-child, .md-content h2:nth-of-type(1) { border-top: none; padding-top: 0; }
+
+  .md-content h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: .75rem; letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 2rem 0 .75rem;
+  }
+
+  .md-content h4 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text);
+    margin: 1.5rem 0 .625rem;
+  }
+
+  .md-content p {
+    margin: 0 0 1rem;
+    color: var(--text-soft);
+    line-height: 1.7;
+  }
+  .md-content p strong, .md-content li strong { color: var(--text); font-weight: 600; }
+  .md-content em { color: var(--text); font-style: italic; }
+
+  .md-content a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(233,199,154,0.3);
+    transition: border-color .2s;
+  }
+  .md-content a:hover { border-bottom-color: var(--accent); }
+
+  /* Lists */
+  .md-content ul, .md-content ol {
+    margin: 0 0 1.25rem 0; padding: 0;
+    list-style: none;
+  }
+  .md-content ul li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: .625rem;
+    color: var(--text-soft);
+    line-height: 1.65;
+  }
+  .md-content ul li::before {
+    content: ''; position: absolute; left: 0; top: .65em;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent);
+  }
+  .md-content ol { counter-reset: oli; }
+  .md-content ol li {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: .625rem;
+    counter-increment: oli;
+    color: var(--text-soft);
+    line-height: 1.65;
+  }
+  .md-content ol li::before {
+    content: counter(oli) ".";
+    position: absolute; left: 0; top: 0;
+    color: var(--accent);
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1rem;
+  }
+  .md-content li ul, .md-content li ol { margin-top: .5rem; margin-bottom: 0; }
+
+  /* Blockquotes */
+  .md-content blockquote {
+    margin: 1.5rem 0;
+    padding: 1.25rem 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 14px 14px 0;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    color: var(--text-soft);
+    font-style: italic;
+  }
+  .md-content blockquote p { margin: 0; color: var(--text-soft); }
+  .md-content blockquote p + p { margin-top: .75rem; }
+  .md-content blockquote strong { color: var(--text); }
+
+  /* Code */
+  .md-content code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .8125rem;
+    background: rgba(255,255,255,0.06);
+    color: var(--accent);
+    padding: .125rem .4rem;
+    border-radius: 4px;
+    border: 1px solid var(--hairline);
+  }
+  .md-content pre {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .md-content pre code {
+    background: none; border: none; padding: 0;
+    color: var(--text);
+    font-size: .8125rem;
+    line-height: 1.6;
+  }
+
+  /* Tables */
+  .md-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    font-size: .875rem;
+  }
+  .md-content th {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: .6875rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--accent);
+    text-align: left;
+    padding: .875rem 1rem;
+    background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .md-content td {
+    padding: .75rem 1rem;
+    color: var(--text-soft);
+    border-bottom: 1px solid var(--hairline);
+    vertical-align: top;
+  }
+  .md-content tr:last-child td { border-bottom: none; }
+  .md-content td strong { color: var(--text); }
+
+  /* HR */
+  .md-content hr {
+    border: none;
+    border-top: 1px solid var(--hairline);
+    margin: 2.5rem 0;
+  }
+
+  /* Image */
+  .md-content img {
+    max-width: 100%;
+    border-radius: 12px;
+    margin: 1rem 0;
+    border: 1px solid var(--hairline);
+  }
+
+  /* Loading + error */
+  .loading, .error {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    color: var(--text-mute);
+    font-style: italic;
+  }
+  .error { color: var(--rose); }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--hairline);
+    padding: 2.5rem 0 4rem;
+    margin-top: 4rem;
+    text-align: center;
+    color: var(--text-mute);
+    font-size: .8125rem;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="top-nav-inner">
+    <a href="index.html" class="back-link">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to submission
+    </a>
+    <div class="nav-tag" id="nav-tag">Document</div>
+  </div>
+</nav>
+
+<main class="doc container">
+  <article class="md-content" id="md"><div class="loading">Loading…</div></article>
+</main>
+
+<footer>
+  <div class="container">
+    <a href="index.html">← Back to submission hub</a>
+  </div>
+</footer>
+
+<script>
+  // Whitelist for safety
+  const ALLOWED = {
+    'volley-deliverables.md': 'Volley · Cover doc',
+    'volley-meta-ads-strategy.md': 'Volley · Ad strategy',
+    'volley-testing-plan.md': 'Volley · Testing plan',
+    'snowball-head-of-sales.md': 'Snowball · Head of Sales',
+    'README.md': 'README',
+  };
+
+  const params = new URLSearchParams(window.location.search);
+  const file = params.get('file');
+  const md = document.getElementById('md');
+  const tag = document.getElementById('nav-tag');
+
+  if (!file || !ALLOWED[file]) {
+    md.innerHTML = '<div class="error">No document specified. <a href="index.html">Return to hub →</a></div>';
+  } else {
+    document.title = ALLOWED[file] + ' · Growth Challenge';
+    tag.textContent = ALLOWED[file];
+
+    fetch(file)
+      .then(r => r.ok ? r.text() : Promise.reject(r.status))
+      .then(text => {
+        marked.setOptions({ gfm: true, breaks: false, headerIds: true });
+        md.innerHTML = marked.parse(text);
+      })
+      .catch(err => {
+        md.innerHTML = '<div class="error">Could not load document (' + err + '). Try refreshing or <a href="index.html">return to hub</a>.</div>';
+      });
+  }
+</script>
+
+</body>
+</html>

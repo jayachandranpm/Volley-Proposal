@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth Challenge · Loom Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --surface: rgba(255,255,255,0.03);
+    --hairline: rgba(255,255,255,0.08);
+    --hairline-hi: rgba(255,255,255,0.14);
+    --text: #f5f4f0;
+    --text-soft: #b5b3ad;
+    --text-mute: #6b6963;
+    --accent: #e9c79a;
+    --green: #6dd58c;
+    --rose: #f0a59a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(ellipse 60% 40% at 90% 0%, rgba(233,199,154,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 0% 100%, rgba(240,165,154,0.06) 0%, transparent 60%);
+    background-attachment: fixed;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4' /%3E%3C/svg%3E");
+    opacity: 0.025; pointer-events: none; z-index: 1;
+  }
+
+  /* Deck shell */
+  .deck { position: relative; width: 100vw; height: 100vh; z-index: 2; }
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    padding: 5vh 8vw;
+    align-items: center; justify-content: center;
+    overflow-y: auto;
+  }
+  .slide.active { display: flex; animation: fadeIn .5s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .slide-inner { width: 100%; max-width: 1100px; }
+
+  /* Typography */
+  .eyebrow {
+    font-size: .6875rem; font-weight: 600;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: inline-flex; align-items: center; gap: .625rem;
+  }
+  .eyebrow::before {
+    content: ''; width: 24px; height: 1px; background: var(--accent);
+  }
+  h1.display {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+  h1.display em { font-style: italic; color: var(--accent); }
+  h2.title {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(2rem, 5vw, 3.75rem);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.25rem;
+  }
+  h2.title em { font-style: italic; color: var(--accent); }
+  .lede {
+    font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+    color: var(--text-soft);
+    line-height: 1.55;
+    max-width: 720px;
+  }
+  .lede strong { color: var(--text); font-weight: 500; }
+
+  /* Slide chrome */
+  .slide-num {
+    position: fixed; top: 2rem; right: 2.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .75rem; color: var(--text-mute);
+    z-index: 10;
+  }
+  .slide-num span { color: var(--accent); }
+  .deck-tag {
+    position: fixed; top: 2rem; left: 2.5rem;
+    font-size: .6875rem; font-weight: 500;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--text-mute);
+    z-index: 10;
+    display: inline-flex; align-items: center; gap: .5rem;
+  }
+  .deck-tag::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 10px var(--green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .4; }
+  }
+  .nav-hint {
+    position: fixed; bottom: 1.5rem; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .6875rem; color: var(--text-mute);
+    z-index: 10;
+    display: flex; gap: 1rem; align-items: center;
+  }
+  .nav-hint kbd {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    padding: .125rem .4rem;
+    color: var(--text-soft);
+    font-family: inherit;
+    font-size: .6875rem;
+  }
+
+  /* Progress bar */
+  .progress {
+    position: fixed; top: 0; left: 0;
+    height: 2px; background: var(--accent);
+    z-index: 20;
+    transition: width .4s ease;
+  }
+
+  /* Glass module */
+  .glass {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    padding: 1.75rem 2rem;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+  }
+
+  /* Layout helpers */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 2rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; margin-top: 2rem; }
+  @media (max-width: 900px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  /* Pull-quote */
+  .pull {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    line-height: 1.3;
+    color: var(--text);
+    border-left: 2px solid var(--accent);
+    padding: .25rem 0 .25rem 1.75rem;
+    margin: 1.5rem 0;
+    max-width: 820px;
+  }
+  .pull-attr {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-size: .8125rem;
+    color: var(--text-mute);
+    letter-spacing: .06em;
+    margin-top: .75rem;
+    display: block;
+  }
+
+  /* Stat row */
+  .stat-row {
+    display: flex; gap: 0;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    padding: 1.5rem 0;
+    margin-top: 2.5rem;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .stat {
+    flex: 1; text-align: center; padding: .25rem 1.5rem;
+    border-right: 1px solid var(--hairline);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    line-height: 1;
+    color: var(--accent);
+    margin-bottom: .375rem;
+  }
+  .stat-label {
+    font-size: .6875rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--text-mute);
+  }
+
+  /* Card */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
+    padding: 1.5rem 1.75rem;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: border-color .25s, transform .25s;
+  }
+  .card-eyebrow {
+    font-size: .6875rem; font-weight: 600;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: .625rem;
+  }
+  .card h3 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 1.5rem;
+    line-height: 1.15;
+    margin-bottom: .75rem;
+    color: var(--text);
+  }
+  .card h3 em { font-style: italic; color: var(--accent); }
+  .card p {
+    font-size: .9375rem;
+    color: var(--text-soft);
+    line-height: 1.6;
+  }
+  .card p + p { margin-top: .625rem; }
+  .card .meta {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--hairline);
+    font-size: .8125rem;
+    color: var(--text-mute);
+    display: flex; justify-content: space-between;
+  }
+  .card .meta strong { color: var(--accent); font-weight: 500; }
+
+  /* Bullets */
+  ul.checks { list-style: none; padding: 0; margin: 1.5rem 0 0; }
+  ul.checks li {
+    padding: .75rem 0 .75rem 1.75rem;
+    position: relative;
+    color: var(--text-soft);
+    font-size: 1rem;
+    line-height: 1.55;
+    border-bottom: 1px solid var(--hairline);
+  }
+  ul.checks li:last-child { border-bottom: none; }
+  ul.checks li::before {
+    content: ''; position: absolute; left: 0; top: 1.25em;
+    width: 8px; height: 1px; background: var(--accent);
+  }
+  ul.checks li strong { color: var(--text); font-weight: 500; }
+
+  /* Two-column */
+  .two-col {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+    align-items: start; margin-top: 2rem;
+  }
+  @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; gap: 1.5rem; } }
+  .col-label {
+    font-size: .6875rem; font-weight: 600;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--text-mute);
+    margin-bottom: 1rem;
+    padding-bottom: .75rem;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .col-rose .col-label { color: var(--rose); }
+  .col-green .col-label { color: var(--green); }
+  .col p {
+    color: var(--text-soft); font-size: .9375rem;
+    line-height: 1.65; margin-bottom: .875rem;
+  }
+
+  /* Pill row */
+  .pills { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.5rem; }
+  .pill {
+    font-size: .75rem;
+    color: var(--text-soft);
+    padding: .375rem .875rem;
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    background: var(--surface);
+  }
+  .pill.accent { color: var(--accent); border-color: rgba(233,199,154,0.3); }
+
+  /* CTA */
+  .cta-row { display: flex; gap: .875rem; margin-top: 2.5rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .875rem 1.5rem;
+    border-radius: 999px;
+    font-size: .875rem; font-weight: 500;
+    text-decoration: none;
+    transition: all .25s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0a0a0c;
+  }
+  .btn-primary:hover { background: #f5d4a8; transform: translateY(-1px); }
+  .btn-ghost {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--hairline-hi);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .btn-ghost:hover { border-color: var(--accent); }
+
+  /* Hidden side arrows for mouse users */
+  .arrow {
+    position: fixed; top: 50%; transform: translateY(-50%);
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-soft);
+    cursor: pointer; z-index: 10;
+    transition: all .25s;
+    opacity: 0; pointer-events: none;
+  }
+  .deck:hover .arrow { opacity: 1; pointer-events: auto; }
+  .arrow:hover { color: var(--accent); border-color: var(--accent); }
+  .arrow.prev { left: 1.5rem; }
+  .arrow.next { right: 1.5rem; }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+<div class="deck-tag">Loom walkthrough</div>
+<div class="slide-num"><span id="cur">01</span> / <span id="total">12</span></div>
+
+<div class="deck" id="deck">
+
+  <!-- Slide 1 — Cover -->
+  <section class="slide active">
+    <div class="slide-inner">
+      <div class="eyebrow">Growth Challenge · 48 hours</div>
+      <h1 class="display">Two real problems.<br><em>Forty-eight hours.</em></h1>
+      <p class="lede">A funnel rebuild for Volley and a real-name shortlist for Snowball's first Head of Sales — picked, written, and pressure-tested as if Day 1 starts tomorrow.</p>
+      <div class="cta-row">
+        <a href="index.html" class="btn btn-primary">Open the submission →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 2 — Premise -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">The premise</div>
+      <h2 class="title">Show the work,<br><em>not the résumé.</em></h2>
+      <p class="lede">Both briefs were small enough to answer in a deck. I didn't. Real tabs, real candidates, real kill rules — the same way I'd ship them on Monday.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="stat-num">2</div><div class="stat-label">Challenges</div></div>
+        <div class="stat"><div class="stat-num">9</div><div class="stat-label">Deliverables</div></div>
+        <div class="stat"><div class="stat-num">3</div><div class="stat-label">Real candidates</div></div>
+        <div class="stat"><div class="stat-num">48h</div><div class="stat-label">Built in</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 3 — Volley thesis -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Challenge 01 · Volley</div>
+      <h2 class="title">The product is good.<br>The funnel <em>buries</em> the proof.</h2>
+      <div class="pull">
+        People don't churn from language apps because the apps are bad. They churn because they're alone. Volley's wedge is accountability — and we're under-selling it.
+        <span class="pull-attr">Working hypothesis behind every change</span>
+      </div>
+      <p class="lede">Three deliverables, one thesis. Each tests some version of the wedge.</p>
+    </div>
+  </section>
+
+  <!-- Slide 4 — Volley landing page -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Deliverable 1 · Landing variant</div>
+      <h2 class="title">Conversation,<br><em>not a form.</em></h2>
+      <ul class="checks">
+        <li><strong>"Get my plan" chatbot</strong> replaces the static quiz — the conversation <em>is</em> the product demo</li>
+        <li><strong>31-language searchable picker</strong> — the previous 4-option list told visitors Volley is small</li>
+        <li><strong>Tutors pulled higher with a nav anchor</strong> — they're the actual moat vs. Duolingo</li>
+        <li><strong>Killed every dead nav link and bounce animation</strong> — we're charging $149/mo to adults, not kids</li>
+      </ul>
+      <div class="cta-row">
+        <a href="lingoflex-landing.html" class="btn btn-ghost" target="_blank">View the rebuilt page →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 5 — Volley ads -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Deliverable 2 · Three ad angles</div>
+      <h2 class="title">Three honest swings,<br><em>three different psychologies.</em></h2>
+      <p class="lede">The point isn't to pick a winner before the algo does. It's to give Meta three deliberately different shapes and let CPT crown one.</p>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-eyebrow">Angle 01</div>
+          <h3>The App <em>Dropout</em></h3>
+          <p>UGC POV. "300-day streak. Still can't order a coffee."</p>
+          <div class="meta"><span>Serial churners</span><strong>High emotion</strong></div>
+        </div>
+        <div class="card">
+          <div class="card-eyebrow">Angle 02</div>
+          <h3>The Busy <em>Pro</em></h3>
+          <p>Sleek motion. "Fluent French. Zero free time."</p>
+          <div class="meta"><span>30–45, time-poor</span><strong>High LTV</strong></div>
+        </div>
+        <div class="card">
+          <div class="card-eyebrow">Angle 03</div>
+          <h3>The Real-World <em>Prep</em></h3>
+          <p>Café b-roll + chat overlay. "Practice the exact chat first."</p>
+          <div class="meta"><span>Travelers</span><strong>Concrete demo</strong></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 6 — Volley testing plan -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Deliverable 3 · Testing plan</div>
+      <h2 class="title">Run, read,<br><em>and kill.</em></h2>
+      <div class="two-col">
+        <div class="col col-rose">
+          <div class="col-label">What I'm <em>not</em> optimizing</div>
+          <p>Not CPT. Not even ROAS in the first 30 days. A $25 trial that churns in 30 days is more expensive than a $45 trial that pays for six months.</p>
+          <p>Most paid teams nurture losers because they're emotionally invested in the creative. The job is to be ruthless.</p>
+        </div>
+        <div class="col col-green">
+          <div class="col-label">What I <em>am</em> optimizing</div>
+          <p><strong>LTV ÷ CAC at Day 90.</strong> Every kill rule, every metric tier, every audience choice filters out cheap-but-bad traffic.</p>
+          <p>Hard kill: hook rate &lt; 15% by Day 3 → dead. No exceptions, regardless of CTR.</p>
+        </div>
+      </div>
+      <div class="pills">
+        <span class="pill accent">$4,500 budget</span>
+        <span class="pill accent">21-day arc</span>
+        <span class="pill">3 phases</span>
+        <span class="pill">Day-level triggers</span>
+        <span class="pill">Explicit Day-21 decision tree</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 7 — Snowball thesis -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Challenge 02 · Snowball</div>
+      <h2 class="title">Define the deal,<br><em>then name the human.</em></h2>
+      <p class="lede">Most "Head of Sales" hires fail because the company writes the JD around the title and not the motion. So I started by writing the motion.</p>
+      <ul class="checks">
+        <li><strong>Has personally closed six-figure consultative deals</strong> to brand-side marketing leaders — not media buys, not SaaS</li>
+        <li><strong>Earned creator-economy credibility</strong> — can talk CTR, watch time, and YouTube algo with a CMO without losing the room</li>
+        <li><strong>Comfortable being deal #1, not employee #150</strong> — player-coach, not org-chart manager</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Slide 8 — Snowball candidates -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Three real candidates</div>
+      <h2 class="title">Picked against<br><em>three different theses.</em></h2>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-eyebrow">Pick 01 · Direct competitor</div>
+          <h3>Lara <em>Della Gaspera</em></h3>
+          <p>Business Lead, Whalar DACH. Already runs P&amp;L on the closest commercial twin to Snowball — multi-month, brand-side, creator-economy.</p>
+          <div class="meta"><span>Berlin</span><a href="https://www.linkedin.com/in/laradellagaspera/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;"><strong>LinkedIn ↗</strong></a></div>
+        </div>
+        <div class="card">
+          <div class="card-eyebrow">Pick 02 · The founder</div>
+          <h3>Yama <em>Kader</em></h3>
+          <p>Founder &amp; CEO, YCA (rebrand of Ad Society). Has personally closed every deal for years — the muscle Snowball needs in deal #1.</p>
+          <div class="meta"><span>Orange County</span><a href="https://www.linkedin.com/in/yamakader/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;"><strong>LinkedIn ↗</strong></a></div>
+        </div>
+        <div class="card">
+          <div class="card-eyebrow">Pick 03 · Off-map</div>
+          <h3>rahul <em>moudgil</em></h3>
+          <p>CEO, Creator24. Headline reads "we bring 3x more deals" — only profile of 45 that talks in pure deal-shaped language.</p>
+          <div class="meta"><span>US</span><a href="https://www.linkedin.com/in/rahul-moudgil/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;"><strong>LinkedIn ↗</strong></a></div>
+        </div>
+      </div>
+      <div class="cta-row">
+        <a href="snowball-head-of-sales.html" class="btn btn-ghost" target="_blank">Read the full picks + DMs →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 9 — How I built the shortlist -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">The hunt itself</div>
+      <h2 class="title">Refused the obvious,<br><em>scraped the rest.</em></h2>
+      <div class="two-col">
+        <div class="col col-rose">
+          <div class="col-label">Where I refused to hunt</div>
+          <p>SaaS VPs (HubSpot, Gong) — wrong motion. Holding-co account directors (Publicis, WPP) — they sell what's on the menu, not pipeline. YouTube/Google partnerships — Ryan already knows them.</p>
+        </div>
+        <div class="col col-green">
+          <div class="col-label">Where I did hunt</div>
+          <p>People who already sell <em>exactly this product</em> at a competitor. Founder-operators who've built the same engine on the brand side. Sales-led founders whose pitch language is already deal-shaped.</p>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><div class="stat-num">9</div><div class="stat-label">Countries swept</div></div>
+        <div class="stat"><div class="stat-num">45</div><div class="stat-label">Profiles reviewed</div></div>
+        <div class="stat"><div class="stat-num">3</div><div class="stat-label">Final picks</div></div>
+        <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Real LinkedIns</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 10 — DM craft -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">The DMs</div>
+      <h2 class="title">Each DM is a<br><em>different lock-pick.</em></h2>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-eyebrow">Lara · subject line</div>
+          <h3>Whalar's pitch <em>vs.</em> Snowball's pitch</h3>
+          <p>Names a real shared vocabulary upfront. Reframes the move as a ladder up, not sideways. Asymmetric trade so a "no" still feels worth her 20 minutes.</p>
+        </div>
+        <div class="card">
+          <div class="card-eyebrow">Yama · subject line</div>
+          <h3>YCA → Snowball:<br><em>a weird question</em></h3>
+          <p>Opens with a specific observation about his rebrand nobody else is making. Asks before pitching. Gives him the ego-out of "or just refer me."</p>
+        </div>
+        <div class="card">
+          <div class="card-eyebrow">Rahul · subject line</div>
+          <h3>"3x more deals" —<br><em>same pitch, bigger ticket</em></h3>
+          <p>Mirrors his deal-language back at him. Acknowledges the "I have my own company" objection up front. Two reasons so a "no on the job" preserves the relationship.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 11 — How I'd actually run it -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">If I were running this Monday</div>
+      <h2 class="title">The plan after<br><em>the plan.</em></h2>
+      <ul class="checks">
+        <li><strong>Sequencing.</strong> Send to Rahul first — lowest-probability yes, highest-signal pitch sharpener. If he says no, ask who he'd hire. Use that intel to refine the DMs going to Lara and Yama.</li>
+        <li><strong>Warming.</strong> All three get one genuine, specific comment on a recent post 48 hours before the DM. Cold DMs convert at ~3%; warm at ~15%. Don't say "great post" — disagree slightly with one specific line.</li>
+        <li><strong>The real test.</strong> If none of the three reply, the problem isn't the candidates — it's that Snowball's written equity story isn't sharp enough to outweigh "stay where you are." That's the conversation I'd have with Ryan before sending DM #4.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Slide 12 — Close -->
+  <section class="slide">
+    <div class="slide-inner" style="text-align: center;">
+      <div class="eyebrow" style="justify-content: center;">Thanks for the read</div>
+      <h1 class="display">Everything's <em>shipped.</em><br>Pick it apart.</h1>
+      <p class="lede" style="margin: 0 auto;">Submission hub has every file, source, and rationale. Loom walkthrough mirrors this deck.</p>
+      <div class="cta-row" style="justify-content: center;">
+        <a href="index.html" class="btn btn-primary">Open the submission →</a>
+        <a href="snowball-head-of-sales.html" class="btn btn-ghost">Snowball deep-dive</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<button class="arrow prev" id="prev" aria-label="Previous slide">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+</button>
+<button class="arrow next" id="next" aria-label="Next slide">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+</button>
+
+<div class="nav-hint">
+  <kbd>←</kbd><kbd>→</kbd> navigate · <kbd>F</kbd> fullscreen · <kbd>P</kbd> present
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const curEl = document.getElementById('cur');
+  const totalEl = document.getElementById('total');
+  const progress = document.getElementById('progress');
+  let idx = 0;
+
+  totalEl.textContent = String(total).padStart(2, '0');
+
+  function go(i) {
+    idx = Math.max(0, Math.min(total - 1, i));
+    slides.forEach((s, n) => s.classList.toggle('active', n === idx));
+    curEl.textContent = String(idx + 1).padStart(2, '0');
+    progress.style.width = ((idx + 1) / total * 100) + '%';
+    history.replaceState(null, '', '#' + (idx + 1));
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); go(idx + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(idx - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); go(0); }
+    else if (e.key === 'End') { e.preventDefault(); go(total - 1); }
+    else if (e.key.toLowerCase() === 'f' || e.key.toLowerCase() === 'p') {
+      e.preventDefault();
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+
+  document.getElementById('prev').addEventListener('click', () => go(idx - 1));
+  document.getElementById('next').addEventListener('click', () => go(idx + 1));
+
+  // Hash routing
+  const hash = parseInt(window.location.hash.slice(1));
+  if (!isNaN(hash) && hash >= 1 && hash <= total) go(hash - 1);
+  else go(0);
+</script>
+
+</body>
+</html>

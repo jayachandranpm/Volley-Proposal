@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snowball · Head of Sales · 3 Picks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --surface: rgba(255,255,255,0.03);
+    --surface-hi: rgba(255,255,255,0.05);
+    --hairline: rgba(255,255,255,0.06);
+    --hairline-hi: rgba(255,255,255,0.12);
+    --text: #f5f4f0;
+    --text-soft: #b5b3ad;
+    --text-mute: #6b6963;
+    --accent: #e9c79a;
+    --accent-soft: rgba(233,199,154,0.12);
+    --green: #6dd58c;
+    --rose: #f0a59a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(ellipse 50% 30% at 90% 0%, rgba(233,199,154,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 0% 50%, rgba(240,165,154,0.06) 0%, transparent 60%);
+    background-attachment: fixed;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4' /%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .container { max-width: 780px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 2; }
+
+  /* Nav */
+  .top-nav {
+    position: sticky; top: 0; z-index: 50;
+    padding: 1rem 0;
+  }
+  .top-nav-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: .625rem 1rem .625rem 1.25rem;
+    background: rgba(10,10,12,0.55);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .back-link {
+    color: var(--text-soft); font-size: .8125rem; font-weight: 500;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: .375rem;
+    transition: color .25s;
+  }
+  .back-link:hover { color: var(--text); }
+  .nav-tag {
+    font-size: .6875rem; font-weight: 500;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--text-mute);
+  }
+
+  /* Hero */
+  .hero { padding: 5rem 0 2.5rem; }
+  .eyebrow {
+    display: inline-block;
+    font-size: .6875rem; font-weight: 500;
+    text-transform: uppercase; letter-spacing: .14em;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    padding: .375rem .875rem;
+    background: var(--accent-soft);
+    border: 1px solid rgba(233,199,154,0.18);
+    border-radius: 999px;
+  }
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.25rem;
+    color: var(--text);
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-sub {
+    color: var(--text-soft);
+    font-size: 1.0625rem;
+    max-width: 600px;
+    line-height: 1.55;
+  }
+
+  /* Sections */
+  section { padding: 2.5rem 0; }
+  h2 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(1.625rem, 3.5vw, 2.125rem);
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+    color: var(--text);
+  }
+  h2 em { font-style: italic; color: var(--accent); }
+  h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: .75rem; letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 1.5rem 0 .625rem;
+  }
+  p { margin-bottom: 1rem; color: var(--text); font-size: .9375rem; line-height: 1.7; }
+  p.muted { color: var(--text-soft); }
+  ul { margin: 0 0 1rem 0; list-style: none; }
+  ul li {
+    margin-bottom: .625rem;
+    color: var(--text-soft);
+    font-size: .9375rem;
+    padding-left: 1.25rem;
+    position: relative;
+    line-height: 1.6;
+  }
+  ul li::before {
+    content: ''; position: absolute; left: 0; top: .625em;
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--accent);
+  }
+  ul li strong { color: var(--text); font-weight: 600; }
+  em { color: var(--text); font-style: italic; }
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(233,199,154,0.3); transition: border-color .2s; }
+  a:hover { border-bottom-color: var(--accent); }
+
+  /* Spec card */
+  .spec {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    padding: 1.5rem 1.75rem;
+    margin: 1.5rem 0 2rem;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .spec h4 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: .6875rem; text-transform: uppercase;
+    letter-spacing: .14em; color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .spec ul { margin-bottom: 0; }
+
+  /* Anti / Pro callouts */
+  .callout {
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    margin: 1rem 0;
+    font-size: .9375rem;
+    line-height: 1.6;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    position: relative;
+    color: var(--text-soft);
+  }
+  .callout::before {
+    content: '';
+    position: absolute; left: 0; top: 1.25rem; bottom: 1.25rem; width: 2px;
+    border-radius: 1px;
+  }
+  .callout.anti::before { background: var(--rose); }
+  .callout.pro::before { background: var(--green); }
+  .callout strong {
+    color: var(--text);
+    display: block;
+    font-weight: 600;
+    margin-bottom: .375rem;
+    font-size: .6875rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .callout.anti strong { color: var(--rose); }
+  .callout.pro strong { color: var(--green); }
+
+  /* Candidate card */
+  .candidate {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 20px;
+    padding: 2rem 2.25rem;
+    margin: 1.5rem 0 2rem;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .cand-pill {
+    display: inline-block;
+    font-size: .625rem; font-weight: 600;
+    padding: .3125rem .75rem;
+    border-radius: 999px;
+    text-transform: uppercase; letter-spacing: .12em;
+    margin-bottom: 1.125rem;
+    border: 1px solid;
+  }
+  .cand-pill.one { color: var(--accent); border-color: rgba(233,199,154,0.25); background: var(--accent-soft); }
+  .cand-pill.two { color: var(--green); border-color: rgba(109,213,140,0.25); background: rgba(109,213,140,0.08); }
+  .cand-pill.three { color: var(--rose); border-color: rgba(240,165,154,0.25); background: rgba(240,165,154,0.08); }
+
+  .cand-name {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 2rem;
+    letter-spacing: -0.02em;
+    margin-bottom: .375rem;
+    line-height: 1.1;
+  }
+  .cand-name a {
+    color: var(--text);
+    border-bottom: 1px solid var(--hairline-hi);
+    transition: border-color .25s, color .25s;
+  }
+  .cand-name a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .cand-meta {
+    color: var(--text-soft);
+    font-size: .875rem;
+    margin-bottom: .25rem;
+    line-height: 1.5;
+  }
+  .cand-meta strong { color: var(--text); font-weight: 600; }
+  .cand-headline {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--text-soft);
+    border-left: 1px solid var(--hairline-hi);
+    padding-left: 1rem;
+    margin: 1.25rem 0 1.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  /* DM block */
+  .dm {
+    background: rgba(0,0,0,0.35);
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
+    padding: 1.5rem 1.75rem;
+    margin: 1rem 0;
+    font-size: .9375rem;
+    line-height: 1.65;
+    color: var(--text);
+  }
+  .dm-subject {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: var(--accent);
+    font-size: .8125rem;
+    margin-bottom: 1rem;
+    padding-bottom: .75rem;
+    border-bottom: 1px dashed var(--hairline);
+    letter-spacing: 0;
+  }
+  .dm-line { margin-bottom: .875rem; color: var(--text-soft); }
+  .dm-line:last-of-type { margin-bottom: 1rem; }
+  .dm-sig { color: var(--text-mute); font-size: .875rem; font-style: italic; }
+
+  .why-it-lands {
+    font-size: .8125rem; color: var(--text-soft);
+    background: rgba(255,255,255,0.025);
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    border: 1px solid var(--hairline);
+    line-height: 1.6;
+  }
+  .why-it-lands strong { color: var(--accent); display: inline; font-weight: 600; }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--hairline);
+    padding: 2.5rem 0 4rem;
+    margin-top: 3rem;
+    text-align: center;
+    color: var(--text-mute);
+    font-size: .8125rem;
+  }
+  footer a { color: var(--accent); border: none; }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="top-nav-inner">
+    <a href="index.html" class="back-link">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to submission
+    </a>
+    <div class="nav-tag">Challenge 02 · Snowball</div>
+  </div>
+</nav>
+
+<header class="hero container">
+  <span class="eyebrow">Head of Sales hunt</span>
+  <h1>Three real candidates.<br><em>Three different bets.</em></h1>
+  <p class="hero-sub">Each one picked against a specific thesis about who can actually close Snowball's six-figure brand-side engagement deal — not the obvious org-chart move.</p>
+</header>
+
+<section class="container">
+  <h2>What Snowball is actually <em>hiring for</em></h2>
+  <p class="muted">Before naming anyone, I tried to define the deal. Most "Head of Sales" hires fail because the company writes the JD around the title and not the motion.</p>
+
+  <div class="spec">
+    <h4>What Snowball sells</h4>
+    <ul>
+      <li>A <strong>12-month consultative engagement</strong> that builds the brand's <em>internal</em> YouTube content competency — train, ideate, create, scale, then "get out the way"</li>
+      <li>The portfolio is the proof: <strong>Vogue 73 Questions</strong> (500M views), <strong>Wired Auto Complete</strong> (200M), <strong>Jubilee Odd Man Out</strong> (300M), <strong>Mini Katana</strong> (11B), <strong>GQ 10 Essentials</strong> — iconic series that drove $300M+ in revenue and 250+ successful hires</li>
+      <li>The buyer is a <strong>brand-side decision maker</strong> (Head of Brand / VP Content / CMO) at a Fortune 1000 or a YouTube-native DTC brand</li>
+      <li>Average deal size is six-to-seven figures and the cycle is multi-month</li>
+      <li>Founder-led, small team, no SDR factory to inherit</li>
+    </ul>
+  </div>
+
+  <h3>So the Head of Sales must be three things at once</h3>
+  <ul>
+    <li><strong>Has personally closed six-figure consultative deals to brand-side marketing leaders</strong> — not media buys, not SaaS subscriptions</li>
+    <li><strong>Earned credibility in the creator economy</strong> — they can talk CTR, watch time, and YouTube algo with a CMO without losing the room</li>
+    <li><strong>Comfortable being deal #1, not employee #150</strong> — player-coach, not org-chart manager</li>
+  </ul>
+
+  <div class="callout anti">
+    <strong>Where I refused to hunt</strong>
+    SaaS VPs (HubSpot/Gong — wrong motion), holding-co account directors (Publicis/WPP — they sell what's on the menu, not pipeline), and YouTube/Google partnerships people (Ryan already knows them all). Obvious org-chart picks waste the brief.
+  </div>
+
+  <div class="callout pro">
+    <strong>Where I did hunt</strong>
+    People who already sell exactly this product at a competitor, founder-operators who've built the same engine on the brand side, and sales-led founders whose pitch language is already deal-shaped.
+  </div>
+</section>
+
+<!-- ============ CANDIDATE 1 ============ -->
+<section class="container">
+  <div class="candidate">
+    <span class="cand-pill one">Pick 01 · The direct competitor's operator</span>
+    <div class="cand-name"><a href="https://www.linkedin.com/in/laradellagaspera/" target="_blank" rel="noopener">Lara Della Gaspera</a></div>
+    <p class="cand-meta"><strong>Current role:</strong> Business Lead, Whalar DACH (Berlin, Germany)</p>
+    <p class="cand-meta"><strong>Past:</strong> Senior Creator Operations Manager at TikTok</p>
+    <p class="cand-headline">"Business Lead @Whalar DACH / Creator economy, Media &amp; Entertainment"</p>
+
+    <h3>Why she'd crush it</h3>
+    <p>Whalar is the closest commercial twin to Snowball — a creator-economy shop that sells multi-month strategic engagements to brand teams (not media buys). As DACH Business Lead she <strong>already runs P&amp;L, owns deal-cycle, and pitches the same buyer Ryan needs to reach</strong> — a brand marketing leader who has to justify creator-economy spend to a CFO. Her TikTok background means she's lived inside the platform side of the deal, which is exactly the credibility you need to walk into a Vogue or GQ meeting and not get caught flat on a watch-time question. She's also currently running a <em>region</em> not a global function, which means she's hireable at the right altitude for an early-stage Snowball — a true rebuild, with founding-team upside.</p>
+
+    <h3>The DM I'd send</h3>
+    <div class="dm">
+      <div class="dm-subject">Subject: Whalar's pitch vs. Snowball's pitch</div>
+      <div class="dm-line">Lara —</div>
+      <div class="dm-line">Quick context: I work with Ryan Hashemi at Snowball — we're the team behind Vogue <em>73 Questions</em>, Wired <em>Auto Complete</em>, Jubilee <em>Odd Man Out</em>. ~90B views collectively, $300M revenue driven for the brands we build series for.</div>
+      <div class="dm-line">Reaching out specifically to you, not "a sales leader on LinkedIn," because the Whalar DACH motion is one of maybe four in the world that resembles what Snowball sells — multi-month, brand-side, requires the buyer to actually believe YouTube/creator content is a strategic channel, not a line item. Most VP Sales candidates have never sat in that conversation.</div>
+      <div class="dm-line">Ryan's hiring his first Head of Sales — global, founding-team, equity, no inherited org chart. I'd love 20 minutes to walk you through what he's building. Worst case you walk away with intel on how a category-defining shop pitches against Whalar.</div>
+      <div class="dm-line">Thursday or Friday work?</div>
+      <div class="dm-sig">— [Your name]</div>
+    </div>
+    <div class="why-it-lands">
+      <strong>Why it lands.</strong> Names a real shared vocabulary in the subject line. Signals research depth (Whalar DACH motion ≠ generic "sales leader"). Reframes the move as a ladder <em>up</em> not sideways. Offers an asymmetric trade so a "no" still feels worth her 20 minutes.
+    </div>
+  </div>
+</section>
+
+<!-- ============ CANDIDATE 2 ============ -->
+<section class="container">
+  <div class="candidate">
+    <span class="cand-pill two">Pick 02 · The founder who already sold this deal</span>
+    <div class="cand-name"><a href="https://www.linkedin.com/in/yamakader/" target="_blank" rel="noopener">Yama Kader</a></div>
+    <p class="cand-meta"><strong>Current role:</strong> Founder &amp; CEO, YCA — Yama Creator Agency (formerly Ad Society) · Orange County, CA</p>
+    <p class="cand-headline">"Talent Management | Influencer Marketing | Creator Economy | Social Media"</p>
+
+    <h3>Why he'd crush it</h3>
+    <p>Yama built a creator-talent agency from scratch and <strong>rebranded it</strong> (Ad Society → YCA) — which means he's been the person who closes every deal personally for years, eats the rejection, and has personally rebuilt the pitch when the market shifts. That's the exact muscle a founder-led shop needs in deal #1: not a salesperson who's been handed a quota, but an operator who knows how to walk into a brand-marketing meeting and convert it because <em>his rent depends on it</em>. He also has a mutual connection in our network (Mugil Vanjinath), so a warm intro path exists. He's not a household name — that's the point. Household-name VPs say no; founders rebuilding their thing say yes when the upside is right.</p>
+
+    <h3>The DM I'd send</h3>
+    <div class="dm">
+      <div class="dm-subject">Subject: YCA → Snowball: a weird question</div>
+      <div class="dm-line">Yama —</div>
+      <div class="dm-line">I've been quietly watching the YCA rebrand from Ad Society. Bold move and the positioning is sharper. Genuine question: what changed in the buyer that made you re-name the whole thing?</div>
+      <div class="dm-line">Asking because I'm helping Ryan Hashemi at Snowball (the agency behind Vogue <em>73 Questions</em>, Mini Katana — 90B views, $300M revenue driven) hire his first Head of Sales. Snowball doesn't sell influencer deals — it sells a 12-month engagement that builds a brand's <em>internal</em> YouTube content team. The buyer is the same CMO you've been pitching, but the product is heavier and the contract is bigger.</div>
+      <div class="dm-line">The reason I'm in your DMs and not a VP Sales at a holding co: career sellers can't close this product. Founders who've built and rebuilt their own agency can. You've done both.</div>
+      <div class="dm-line">Worth 20 min to talk? Even if it's "no for me, here's who you should call" — I'd take that trade.</div>
+      <div class="dm-sig">— [Your name]</div>
+    </div>
+    <div class="why-it-lands">
+      <strong>Why it lands.</strong> Opens with a real, specific observation he'll know nobody else is making (the Ad Society → YCA rebrand isn't on his profile prominently). Asks a question instead of pitching — high reply rate. Explicitly de-positions the "career VP Sales" candidate so he reads himself into the role. Offers him the ego-out of "or just refer me to someone."
+    </div>
+  </div>
+</section>
+
+<!-- ============ CANDIDATE 3 ============ -->
+<section class="container">
+  <div class="candidate">
+    <span class="cand-pill three">Pick 03 · The off-map sales-wired founder</span>
+    <div class="cand-name"><a href="https://www.linkedin.com/in/rahul-moudgil/" target="_blank" rel="noopener">rahul moudgil</a></div>
+    <p class="cand-meta"><strong>Current role:</strong> Founder &amp; CEO, Creator24 (US-based, building tools for creator managers)</p>
+    <p class="cand-headline">"CEO @ Creator24 | we bring 3x more deals for managers"</p>
+
+    <h3>Why he'd crush it</h3>
+    <p>Look at his headline. It's not "passionate about the creator economy" or "building the future of." It's <strong>"we bring 3x more deals for managers."</strong> That single sentence tells you everything: this is a founder whose entire identity is wired around closing deals and proving ROI in numbers. Out of ~45 creator-economy candidates I scraped, his profile is the only one that talks in pure deal-shaped language. He's built and is currently selling a product <em>to creator managers</em> (his customers are sales-and-deal people), so he understands the deal-flow side of the creator economy not the platform/marketing side — which is the gap most candidates have. He also has a mutual connection in our network (Monika Celes), so a warm path exists.</p>
+    <p class="muted"><em>The risk:</em> he runs his own company, so the conversation is harder. <em>The reward:</em> if he says yes, you've hired the only candidate who'd close on day 30.</p>
+
+    <h3>The DM I'd send</h3>
+    <div class="dm">
+      <div class="dm-subject">Subject: "3x more deals" — same pitch, bigger ticket</div>
+      <div class="dm-line">Rahul —</div>
+      <div class="dm-line">Out of the ~50 creator-economy founders I looked at this week, your headline is the only one that says "deals" instead of "passion." That's the reason this DM exists.</div>
+      <div class="dm-line">I work with Ryan Hashemi at Snowball — we're the team behind Vogue's <em>73 Questions</em>, Wired's <em>Auto Complete</em>, Jubilee's <em>Odd Man Out</em>, Mini Katana (11B views). $300M+ revenue driven for our brand partners. Ryan's hiring his first Head of Sales and the brief is uncomfortably specific: it has to be someone who's already obsessed with deal mechanics, not someone who got promoted into selling.</div>
+      <div class="dm-line">I get that you're heads-down on Creator24. But two reasons to give me 20 minutes:</div>
+      <div class="dm-line">&nbsp;&nbsp;1. The Snowball buyer (brand CMO) and the Creator24 buyer (creator manager) overlap more than you'd think — even if you say no, the conversation is a sales-channel scoping call for both of us<br>&nbsp;&nbsp;2. If you ever sell or wind down Creator24, this is the most interesting next seat in the category — equity, founding-team, no SDR factory</div>
+      <div class="dm-line">Coffee or Zoom this week?</div>
+      <div class="dm-sig">— [Your name]</div>
+    </div>
+    <div class="why-it-lands">
+      <strong>Why it lands.</strong> Mirrors his own deal-language back at him in the first line (mirror neurons + ego). Acknowledges the "I have my own company" objection up front. Offers two distinct reasons to take the call so a "no on the job" doesn't kill the relationship. Closes with options, not a hard ask.
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW I'D RUN IT ============ -->
+<section class="container">
+  <h2>How I'd run the <em>outreach</em></h2>
+  <p class="muted">Three notes the brief didn't ask for but matter:</p>
+  <ul>
+    <li><strong>Sequencing.</strong> Send to Candidate 3 first (lowest-probability yes, highest-signal pitch sharpener). If he says no, ask him who he'd hire — founders love giving advice. Use that intel to refine the DM going to Candidates 1 and 2.</li>
+    <li><strong>Warming.</strong> All three get one genuine, specific comment on a recent post 48 hours before the DM. Cold DMs convert at ~3%; warm DMs convert at ~15%. Don't say "great post" — pick one specific line and disagree with it slightly.</li>
+    <li><strong>The real test.</strong> If none of the three reply, the problem isn't the candidates — it's that Snowball's written equity/comp story isn't sharp enough to outweigh "stay where you are." That's the conversation I'd have with Ryan before sending DM #4.</li>
+  </ul>
+</section>
+
+<footer>
+  <div class="container">
+    <a href="index.html">← Back to submission hub</a>
+  </div>
+</footer>
+
+</body>
+</html>
