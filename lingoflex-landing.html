@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>getvolley.ai — Learn a language with a private tutor and daily AI practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   THEME (mirrors LingoFlex tailwind.config.mjs)
+   ========================================================= */
+:root{
+  --primary:#D4553A;
+  --primary-90:rgba(212,85,58,.9);
+  --primary-20:rgba(212,85,58,.2);
+  --primary-10:rgba(212,85,58,.1);
+  --secondary:#6CD0AD;
+  --secondary-20:rgba(108,208,173,.2);
+  --background:#F5F3EF;
+  --foreground:#17151D;
+  --foreground-70:rgba(23,21,29,.7);
+  --foreground-60:rgba(23,21,29,.6);
+  --foreground-50:rgba(23,21,29,.5);
+  --foreground-30:rgba(23,21,29,.3);
+  --link:#1F8A63;
+  --muted:#E8E6E1;
+  --muted-50:rgba(232,230,225,.5);
+  --muted-30:rgba(232,230,225,.3);
+  --card:#FFFFFF;
+  --border:#D4D2CC;
+  --border-50:rgba(212,210,204,.5);
+  --border-40:rgba(212,210,204,.4);
+  --border-30:rgba(212,210,204,.3);
+  --border-20:rgba(212,210,204,.2);
+  --dark-card:#22202A;
+  --dark-card-hover:#2A2834;
+  --tutor-green:#1F8A63;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 6px 16px rgba(0,0,0,.06);
+  --shadow-lg:0 12px 32px rgba(0,0,0,.08);
+  --shadow-xl:0 20px 50px rgba(0,0,0,.12);
+  --shadow-2xl:0 30px 80px rgba(0,0,0,.18);
+}
+
+/* =========================================================
+   RESET & BASE
+   ========================================================= */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--background);
+  color:var(--foreground);
+  line-height:1.5;
+  letter-spacing:-0.01em;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+body::selection,body *::selection{background:var(--primary-20);color:var(--primary)}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+/* Lucide icon defaults — uniform high-quality icons */
+[data-lucide]{
+  width:24px;
+  height:24px;
+  stroke-width:2;
+}
+.icon-sm[data-lucide]{width:18px;height:18px}
+.icon-md[data-lucide]{width:20px;height:20px}
+.icon-lg[data-lucide]{width:28px;height:28px}
+.icon-xs[data-lucide]{width:14px;height:14px;stroke-width:3}
+
+/* =========================================================
+   LAYOUT HELPERS
+   ========================================================= */
+.container{max-width:1200px;margin:0 auto;padding:0 1rem}
+.text-center{text-align:center}
+.section{padding:6rem 0}
+@media (min-width:768px){
+  .section{padding:8rem 0}
+}
+
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+h1,h2,h3,h4,h5,h6,.logo{font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:-0.02em;line-height:1.1}
+.eyebrow{
+  display:inline-block;
+  font-size:.875rem;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:1rem;
+}
+.eyebrow.primary{color:var(--primary)}
+.eyebrow.secondary{color:var(--secondary)}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.5rem;
+  padding:1.125rem 2.5rem;
+  border-radius:9999px;
+  font-weight:600;
+  font-size:1.125rem;
+  transition:background-color .2s ease, box-shadow .2s ease;
+  text-align:center;
+  white-space:nowrap;
+}
+.btn-primary{
+  background:var(--primary);
+  color:#fff;
+  box-shadow:0 8px 24px rgba(212,85,58,.25);
+}
+.btn-primary:hover{
+  background:var(--primary-90);
+  box-shadow:0 12px 32px rgba(212,85,58,.35);
+}
+.btn-sm{padding:.625rem 1.5rem;font-size:1rem}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(255,255,255,0.3);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(255,255,255,0.4);
+  box-shadow:0 4px 30px rgba(0,0,0,0.05);
+}
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:1rem 0;
+}
+.logo{font-size:1.5rem;font-weight:900;letter-spacing:-.02em}
+.nav-desktop{display:none;align-items:center;gap:2rem}
+.nav-desktop a{transition:color .2s}
+.nav-desktop a:hover{color:var(--primary)}
+.header-cta{display:none;align-items:center;gap:1rem}
+.icon-btn{position:relative;color:var(--foreground);transition:color .2s;display:inline-flex;align-items:center}
+.icon-btn:hover{color:var(--primary)}
+.menu-btn{display:flex;color:var(--foreground)}
+.mobile-menu{display:none;flex-direction:column;gap:1rem;padding:1rem;border-top:1px solid var(--border)}
+.mobile-menu.open{display:flex}
+.mobile-menu a{padding:.5rem 0}
+@media (min-width:768px){
+  .nav-desktop,.header-cta{display:flex}
+  .menu-btn{display:none}
+  .mobile-menu{display:none!important}
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero{
+  position:relative;
+  padding:6rem 0 8rem;
+  overflow:hidden;
+}
+@media (min-width:768px){.hero{padding:8rem 0 10rem}}
+.hero-glow{
+  position:absolute;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:1000px;
+  height:600px;
+  background:radial-gradient(circle, var(--secondary-20) 0%, transparent 70%);
+  filter:blur(80px);
+  opacity:.5;
+  z-index:-1;
+  pointer-events:none;
+}
+.hero-content{max-width:64rem;margin:0 auto}
+.hero h1{
+  font-size:clamp(2.5rem,6vw,4.5rem);
+  font-weight:900;
+  margin-bottom:1.5rem;
+  line-height:1.1;
+}
+.hero h1 .underlined{
+  position:relative;
+  display:inline-block;
+}
+.hero h1 .underlined::after{
+  content:'';
+  position:absolute;
+  bottom:.4rem;
+  left:0;
+  width:100%;
+  height:.75rem;
+  background:var(--primary-20);
+  border-radius:9999px;
+  z-index:-1;
+}
+.hero h1 .accent{color:var(--primary)}
+.hero-sub{
+  font-size:1.125rem;
+  color:var(--foreground-70);
+  margin:0 auto 2.5rem;
+  max-width:42rem;
+  line-height:1.625;
+}
+@media (min-width:768px){.hero-sub{font-size:1.25rem}}
+.hero-cta-group{display:flex;flex-direction:column;align-items:center;gap:1rem}
+.hero-meta{font-size:.875rem;color:var(--foreground-50);font-weight:500}
+
+/* Avatar stack — static, no decorative bouncing */
+.avatar-stack-wrap{
+  margin-top:4rem;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.75rem;
+}
+.avatar-stack{display:flex}
+.avatar-stack .av{
+  width:2.5rem;
+  height:2.5rem;
+  border-radius:9999px;
+  border:2px solid var(--background);
+  overflow:hidden;
+  background:var(--muted);
+  margin-left:-.75rem;
+}
+.avatar-stack .av:first-child{margin-left:0}
+.avatar-stack img{width:100%;height:100%;object-fit:cover}
+
+/* Hero feature cards */
+.hero-cards{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1.5rem;
+  max-width:64rem;
+  margin:6rem auto 0;
+}
+@media (min-width:768px){.hero-cards{grid-template-columns:repeat(3,1fr)}}
+.feat-card{
+  background:#fff;
+  border-radius:1.5rem;
+  padding:2rem;
+  box-shadow:var(--shadow-sm);
+  border:1px solid var(--border-40);
+  transition:box-shadow .25s ease;
+  overflow:hidden;
+}
+.feat-card:hover{box-shadow:var(--shadow-md)}
+.feat-card-image{
+  height:8rem;
+  margin-bottom:1.5rem;
+  border-radius:1rem;
+  overflow:hidden;
+  background:var(--muted);
+}
+.feat-card-image img{width:100%;height:100%;object-fit:cover}
+.feat-card-icon{
+  width:3rem;
+  height:3rem;
+  border-radius:1rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:1.5rem;
+}
+.feat-card-icon.blue{background:#EFF6FF;color:#2563EB}
+.feat-card-icon.green{background:#F0FDF4;color:#16A34A}
+.feat-card-icon.purple{background:#FAF5FF;color:#9333EA}
+.feat-card h3{font-size:1.25rem;margin-bottom:.5rem}
+.feat-card p{color:var(--foreground-70)}
+
+/* =========================================================
+   THE WEEKLY LOOP (DARK SECTION)
+   ========================================================= */
+.dark-section{
+  position:relative;
+  background:var(--foreground);
+  color:#fff;
+  overflow:hidden;
+}
+.dark-section::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:1px;
+  background:linear-gradient(to right, transparent, rgba(255,255,255,.1), transparent);
+}
+.section-head{margin-bottom:4rem;text-align:center}
+.section-head h2{
+  font-size:clamp(2.25rem,4.5vw,3rem);
+}
+.loop-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1.5rem;
+  max-width:72rem;
+  margin:0 auto;
+}
+@media (min-width:768px){.loop-grid{grid-template-columns:repeat(3,1fr)}}
+.loop-card{
+  position:relative;
+  background:var(--dark-card);
+  border-radius:2rem;
+  padding:2rem;
+  border:1px solid rgba(255,255,255,.05);
+  transition:background-color .25s ease;
+}
+.loop-card:hover{background:var(--dark-card-hover)}
+.loop-num{
+  position:absolute;
+  top:2rem;
+  right:2rem;
+  font-size:3.75rem;
+  font-weight:900;
+  color:rgba(255,255,255,.1);
+  line-height:1;
+}
+.loop-icon{
+  width:3.5rem;
+  height:3.5rem;
+  border-radius:1rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:2rem;
+}
+.loop-icon.primary-bg{background:var(--primary-20);color:var(--primary)}
+.loop-icon.secondary-bg{background:var(--secondary-20);color:var(--secondary)}
+.loop-icon.blue-bg{background:rgba(59,130,246,.2);color:#60A5FA}
+.loop-card h3{font-size:1.5rem;margin-bottom:1rem}
+.loop-card p{color:rgba(255,255,255,.6);line-height:1.6}
+
+/* =========================================================
+   APP UI SHOWCASE
+   ========================================================= */
+.showcase-section{background:#fff}
+.showcase-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:2rem;
+  max-width:72rem;
+  margin:0 auto;
+  align-items:start;
+}
+@media (min-width:768px){.showcase-grid{grid-template-columns:repeat(3,1fr)}}
+.show-card{
+  border-radius:2.5rem;
+  padding:2rem;
+  height:600px;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  overflow:hidden;
+}
+.show-card-dark{background:var(--foreground);color:#fff;box-shadow:var(--shadow-2xl)}
+.show-card-light{background:#fff;color:var(--foreground);border:1px solid var(--border);box-shadow:var(--shadow-xl)}
+.show-card-green{background:var(--tutor-green);color:#fff;box-shadow:var(--shadow-2xl)}
+.show-icon{
+  width:3rem;
+  height:3rem;
+  border-radius:9999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:1.5rem;
+}
+.show-icon-light-on-dark{background:rgba(255,255,255,.1);color:#fff}
+.show-icon-light-on-green{background:rgba(255,255,255,.2);color:#fff}
+.show-icon-secondary{background:var(--secondary-20);color:var(--secondary)}
+.show-card h3{font-size:1.5rem;margin-bottom:.75rem}
+.show-card p.desc{font-size:.875rem;margin-bottom:2rem}
+.show-card-dark p.desc,.show-card-green p.desc{color:rgba(255,255,255,.7)}
+.show-card-light p.desc{color:var(--foreground-60)}
+
+/* Mock chat */
+.mock-chat{
+  flex:1;
+  border-radius:1.5rem;
+  padding:1rem;
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+  margin-top:auto;
+  border:1px solid rgba(255,255,255,.1);
+}
+.mock-chat-dark{background:var(--dark-card)}
+.mock-chat-green{background:rgba(0,0,0,.1)}
+.bubble{
+  border-radius:1rem;
+  padding:.75rem;
+  font-size:.875rem;
+  max-width:85%;
+}
+.bubble-them{background:rgba(255,255,255,.1);align-self:flex-start;border-top-left-radius:.25rem}
+.bubble-me{background:var(--primary);color:#fff;align-self:flex-end;border-top-right-radius:.25rem}
+.bubble-tutor-them{background:rgba(255,255,255,.2);align-self:flex-start;border-top-left-radius:.25rem}
+.bubble-tutor-me{background:#fff;color:var(--tutor-green);align-self:flex-end;border-top-right-radius:.25rem;font-weight:500}
+.chat-input-row{
+  margin-top:auto;
+  padding-top:1rem;
+  border-top:1px solid rgba(255,255,255,.1);
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+}
+.mic-btn{
+  width:2.5rem;
+  height:2.5rem;
+  border-radius:9999px;
+  background:var(--primary);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  color:#fff;
+}
+.chat-input-fake{
+  height:2.5rem;
+  background:rgba(255,255,255,.05);
+  border-radius:9999px;
+  flex:1;
+  display:flex;
+  align-items:center;
+  padding:0 1rem;
+  color:rgba(255,255,255,.4);
+  font-size:.875rem;
+}
+.tutor-row{display:flex;gap:.75rem;align-items:flex-start}
+.tutor-avatar{
+  width:2rem;
+  height:2rem;
+  border-radius:9999px;
+  background:rgba(255,255,255,.2);
+  flex-shrink:0;
+  overflow:hidden;
+}
+.tutor-avatar img{width:100%;height:100%;object-fit:cover}
+
+/* Mock list (light card) */
+.mock-list{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:.75rem;
+  margin-top:auto;
+}
+.mock-list-item{
+  background:var(--muted-50);
+  border-radius:1rem;
+  padding:1rem;
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  border:1px solid var(--border-50);
+}
+.mock-list-icon{
+  width:3rem;
+  height:3rem;
+  border-radius:.75rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.mock-list-title{font-weight:700;font-size:.875rem}
+.mock-list-sub{font-size:.75rem;color:var(--foreground-60)}
+
+/* =========================================================
+   TUTOR HIGHLIGHT
+   ========================================================= */
+.tutor-section{padding:6rem 0;background:var(--background)}
+.tutor-card{
+  max-width:64rem;
+  margin:0 auto;
+  background:#fff;
+  border-radius:3rem;
+  padding:2rem;
+  box-shadow:var(--shadow-xl);
+  border:1px solid var(--border-30);
+}
+@media (min-width:768px){.tutor-card{padding:4rem}}
+.tutor-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:3rem;
+  align-items:center;
+}
+@media (min-width:768px){.tutor-grid{grid-template-columns:1fr 1fr}}
+.tutor-img-wrap{
+  position:relative;
+  display:flex;
+  justify-content:center;
+}
+.tutor-img-glow{
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle, var(--primary-20) 0%, transparent 70%);
+  filter:blur(40px);
+  border-radius:9999px;
+  transform:scale(1.5);
+}
+.tutor-img{
+  position:relative;
+  width:16rem;
+  height:16rem;
+  border-radius:9999px;
+  overflow:hidden;
+  border:8px solid #fff;
+  box-shadow:var(--shadow-2xl);
+  z-index:1;
+}
+@media (min-width:768px){.tutor-img{width:20rem;height:20rem}}
+.tutor-img img{width:100%;height:100%;object-fit:cover}
+.tutor-content h2{
+  font-size:clamp(1.875rem,3.5vw,2.25rem);
+  margin-bottom:1.5rem;
+  line-height:1.2;
+}
+.tutor-content p{color:var(--foreground-70);margin-bottom:2rem;line-height:1.625}
+.tutor-points{list-style:none;display:flex;flex-direction:column;gap:1rem}
+.tutor-points li{display:flex;align-items:center;gap:.75rem;font-weight:500}
+.check-circle{
+  width:1.5rem;
+  height:1.5rem;
+  border-radius:9999px;
+  background:var(--secondary-20);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  color:var(--secondary);
+}
+
+/* =========================================================
+   DAILY PRACTICE
+   ========================================================= */
+.daily-section{padding:6rem 0;background:var(--background)}
+.daily-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1.5rem;
+  max-width:72rem;
+  margin:0 auto;
+}
+@media (min-width:768px){.daily-grid{grid-template-columns:repeat(3,1fr)}}
+.daily-card{
+  background:#fff;
+  border-radius:2rem;
+  padding:2rem;
+  box-shadow:var(--shadow-sm);
+  border:1px solid var(--border-40);
+  transition:box-shadow .25s ease;
+}
+.daily-card:hover{box-shadow:var(--shadow-md)}
+.daily-preview{
+  height:10rem;
+  border-radius:1rem;
+  margin-bottom:2rem;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:1rem;
+}
+.daily-preview.red{background:#FEF2F2;border:1px solid #FEE2E2}
+.daily-preview.green{background:#F0FDF4;border:1px solid #DCFCE7}
+.daily-preview.purple{background:#FAF5FF;border:1px solid #F3E8FF}
+.daily-tag{
+  background:#fff;
+  padding:.5rem 1rem;
+  border-radius:.75rem;
+  box-shadow:var(--shadow-sm);
+  font-size:.875rem;
+  font-weight:500;
+  margin-bottom:.5rem;
+}
+.daily-translation{font-size:.75rem;color:#F87171;margin-bottom:1rem}
+.daily-bars{display:flex;gap:.5rem}
+.daily-bars span{width:2rem;height:.5rem;border-radius:9999px}
+.daily-bars span.r{background:#FECACA}
+.daily-bars span.g{background:#4ADE80}
+.daily-bars span.b{background:#60A5FA}
+.daily-chat-mini{display:flex;flex-direction:column;gap:.5rem;width:100%}
+.daily-chat-mini .b{
+  background:#fff;
+  padding:.5rem 1rem;
+  border-radius:.75rem;
+  box-shadow:var(--shadow-sm);
+  font-size:.875rem;
+  font-weight:500;
+}
+.daily-chat-mini .b.start{align-self:flex-start}
+.daily-chat-mini .b.end{align-self:flex-end;background:var(--primary);color:#fff}
+.daily-audio-circle{
+  width:3rem;
+  height:3rem;
+  background:#DDD6FE;
+  border-radius:9999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:.75rem;
+  color:#7C3AED;
+}
+.daily-audio-label{font-size:.875rem;font-weight:500;color:#581C87}
+.daily-audio-text{font-size:.75rem;color:#7C3AED}
+.daily-card h3{font-size:1.25rem;margin-bottom:.75rem}
+.daily-card p{color:var(--foreground-70);font-size:.875rem;line-height:1.625}
+
+/* =========================================================
+   BUILT FOR PEOPLE
+   ========================================================= */
+.built-section{
+  padding:6rem 0;
+  background:linear-gradient(to bottom, var(--background), var(--muted-30));
+}
+.built-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:2rem;
+  max-width:64rem;
+  margin:0 auto;
+}
+@media (min-width:768px){.built-grid{grid-template-columns:repeat(3,1fr)}}
+.built-card{
+  background:#fff;
+  border-radius:1.5rem;
+  padding:2rem;
+  text-align:center;
+  box-shadow:var(--shadow-sm);
+  border:1px solid var(--border-50);
+  position:relative;
+  margin-top:2rem;
+}
+.built-avatar{
+  position:absolute;
+  top:-2rem;
+  left:50%;
+  transform:translateX(-50%);
+  width:4rem;
+  height:4rem;
+  border-radius:9999px;
+  border:4px solid #fff;
+  overflow:hidden;
+  box-shadow:var(--shadow-md);
+  background:var(--muted);
+}
+.built-avatar img{width:100%;height:100%;object-fit:cover}
+.built-card h3{font-size:1.25rem;margin:1.5rem 0 .75rem}
+.built-card p{color:var(--foreground-70);font-size:.875rem;line-height:1.625}
+.italic-accent{font-style:italic;color:var(--primary)}
+
+/* =========================================================
+   TESTIMONIALS
+   ========================================================= */
+.testi-section{padding:6rem 0;background:var(--muted-30)}
+.testi-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1.5rem;
+  max-width:72rem;
+  margin:0 auto;
+}
+@media (min-width:768px){.testi-grid{grid-template-columns:repeat(3,1fr)}}
+.testi-card{
+  background:#F0EFEA;
+  border-radius:1.5rem;
+  padding:2rem;
+  box-shadow:var(--shadow-sm);
+  border:1px solid var(--border-20);
+  display:flex;
+  flex-direction:column;
+}
+.stars{display:flex;gap:.25rem;margin-bottom:1.5rem;color:#FACC15}
+.stars [data-lucide]{width:18px;height:18px;fill:currentColor}
+.testi-card p.quote{
+  color:rgba(23,21,29,.8);
+  margin-bottom:2rem;
+  line-height:1.625;
+  flex:1;
+}
+.testi-foot{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  margin-top:auto;
+  padding-top:1.5rem;
+  border-top:1px solid var(--border-30);
+}
+.testi-avatar{
+  width:3rem;
+  height:3rem;
+  border-radius:9999px;
+  overflow:hidden;
+  background:#fff;
+  flex-shrink:0;
+}
+.testi-avatar img{width:100%;height:100%;object-fit:cover}
+.testi-name{font-weight:700}
+.testi-meta{font-size:.75rem;color:var(--foreground-60)}
+
+/* =========================================================
+   FAQ
+   ========================================================= */
+.faq-section{padding:6rem 0;background:var(--background)}
+.faq-list{max-width:48rem;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--border-50)}
+.faq-item:last-child{border-bottom:none}
+.faq-q{
+  width:100%;
+  padding:1.5rem 0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  text-align:left;
+  font-size:1.125rem;
+  font-weight:700;
+  color:var(--foreground);
+  transition:color .2s;
+}
+.faq-q:hover{color:var(--primary)}
+.faq-q span.q-text{padding-right:2rem}
+.faq-toggle{
+  width:2rem;
+  height:2rem;
+  border-radius:9999px;
+  background:var(--muted);
+  color:var(--foreground);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  transition:background-color .2s, color .2s;
+}
+.faq-item.open .faq-toggle{background:var(--primary);color:#fff}
+.faq-q:hover .faq-toggle{background:var(--primary-10);color:var(--primary)}
+.faq-item.open .faq-q:hover .faq-toggle{background:var(--primary);color:#fff}
+.faq-toggle [data-lucide]{width:18px;height:18px;transition:transform .25s ease}
+.faq-item.open .faq-toggle [data-lucide]{transform:rotate(180deg)}
+.faq-a{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .35s ease, padding .35s ease;
+}
+.faq-item.open .faq-a{max-height:600px;padding-bottom:1.5rem}
+.faq-a p{color:var(--foreground-70);line-height:1.625;padding-right:3rem}
+
+/* =========================================================
+   FINAL CTA
+   ========================================================= */
+.final-section{
+  position:relative;
+  padding:6rem 0;
+  background:var(--foreground);
+  color:#fff;
+  overflow:hidden;
+}
+.final-section::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at top right, var(--primary-20), transparent 60%);
+  opacity:.5;
+  pointer-events:none;
+}
+.final-inner{
+  position:relative;
+  max-width:64rem;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:space-between;
+  gap:3rem;
+}
+@media (min-width:768px){.final-inner{flex-direction:row}}
+.final-text{flex:1;text-align:center}
+@media (min-width:768px){.final-text{text-align:left}}
+.final-text h2{
+  font-size:clamp(1.875rem,4vw,3rem);
+  margin-bottom:1.5rem;
+  line-height:1.2;
+}
+.final-tutor{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:1rem;
+}
+.final-tutor-img-wrap{position:relative}
+.final-tutor-img{
+  width:6rem;
+  height:6rem;
+  border-radius:9999px;
+  border:4px solid var(--foreground);
+  overflow:hidden;
+  position:relative;
+  z-index:1;
+}
+.final-tutor-img img{width:100%;height:100%;object-fit:cover}
+.online-badge{
+  position:absolute;
+  bottom:-.5rem;
+  right:-.5rem;
+  background:var(--secondary);
+  color:var(--foreground);
+  font-size:.75rem;
+  font-weight:700;
+  padding:.25rem .75rem;
+  border-radius:9999px;
+  border:2px solid var(--foreground);
+  z-index:2;
+}
+.final-learners{display:flex;margin-top:1rem}
+.final-learners .av{
+  width:2rem;
+  height:2rem;
+  border-radius:9999px;
+  border:2px solid var(--foreground);
+  overflow:hidden;
+  background:rgba(255,255,255,.1);
+  margin-left:-.75rem;
+}
+.final-learners .av:first-child{margin-left:0}
+.final-learners img{width:100%;height:100%;object-fit:cover}
+.final-meta{font-size:.875rem;color:rgba(255,255,255,.6);text-align:center}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.site-footer{background:var(--foreground);color:#fff;padding:3rem 0}
+.footer-inner{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:space-between;
+  gap:1.5rem;
+}
+@media (min-width:768px){.footer-inner{flex-direction:row}}
+.footer-links{display:flex;gap:1.5rem;font-size:.875rem}
+.footer-links a:hover{color:var(--secondary)}
+.footer-copy{font-size:.875rem;color:rgba(255,255,255,.7)}
+
+/* =========================================================
+   CHATBOT ONBOARDING WIDGET (Intercom-style)
+   ========================================================= */
+.chat-widget{position:fixed;bottom:1.25rem;right:1.25rem;z-index:100;width:min(24rem,calc(100vw - 2rem));height:min(600px,calc(100vh - 2.5rem));border-radius:1.25rem;background:#fff;box-shadow:0 24px 48px rgba(0,0,0,0.18),0 4px 12px rgba(0,0,0,0.08);display:flex;flex-direction:column;overflow:hidden;transform:translateY(20px) scale(.96);opacity:0;pointer-events:none;transform-origin:bottom right;transition:transform .25s ease, opacity .2s ease;}
+.chat-widget.active{transform:translateY(0) scale(1);opacity:1;pointer-events:auto;}
+
+/* Chat header (Intercom-style gradient banner) */
+.chat-header{padding:1.25rem 1.25rem 1rem;background:linear-gradient(135deg, var(--primary) 0%, #b8472f 100%);color:#fff;display:flex;align-items:flex-start;gap:.75rem;}
+.chat-avatar{width:2.5rem;height:2.5rem;border-radius:9999px;background:rgba(255,255,255,0.2);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Outfit',sans-serif;position:relative;flex-shrink:0;border:2px solid rgba(255,255,255,0.3);}
+.chat-avatar::after{content:'';position:absolute;bottom:-1px;right:-1px;width:.75rem;height:.75rem;background:#1F8A63;border:2px solid #fff;border-radius:50%;}
+.chat-title{flex:1;line-height:1.3;}
+.chat-title .name{font-weight:700;font-size:1.0625rem;color:#fff;font-family:'Outfit',sans-serif;letter-spacing:-0.01em;}
+.chat-title .status{font-size:.8125rem;color:rgba(255,255,255,0.85);margin-top:.125rem;}
+.chat-close{width:1.875rem;height:1.875rem;border-radius:9999px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;color:#fff;transition:background .15s;flex-shrink:0;}
+.chat-close:hover{background:rgba(255,255,255,0.25);}
+.chat-close svg{width:16px;height:16px;}
+
+/* Messages */
+.chat-body{flex:1;overflow-y:auto;padding:1rem 1rem 0;display:flex;flex-direction:column;gap:.5rem;background:#fff;}
+.msg-row{display:flex;gap:.5rem;align-items:flex-end;animation:msgIn .25s ease both;}
+.msg-row.user{justify-content:flex-end;}
+.msg-row .mini-avatar{width:1.5rem;height:1.5rem;border-radius:9999px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.625rem;font-weight:700;flex-shrink:0;}
+.msg-bubble{max-width:80%;padding:.625rem .875rem;border-radius:1rem;font-size:.9375rem;line-height:1.4;color:var(--foreground);background:#f1f0ec;border-bottom-left-radius:.25rem;}
+.msg-row.user .msg-bubble{background:var(--primary);color:#fff;border-bottom-right-radius:.25rem;border-bottom-left-radius:1rem;}
+@keyframes msgIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+/* Typing indicator */
+.typing{display:inline-flex;gap:.25rem;padding:.75rem .875rem;background:#f1f0ec;border-radius:1rem;border-bottom-left-radius:.25rem;align-items:center;}
+.typing span{width:.4375rem;height:.4375rem;background:var(--foreground-60);border-radius:50%;animation:typing 1.2s infinite ease-in-out;}
+.typing span:nth-child(2){animation-delay:.15s;}
+.typing span:nth-child(3){animation-delay:.3s;}
+@keyframes typing{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-3px);opacity:1;}}
+
+/* Quick replies */
+.chat-replies{padding:.75rem 1rem 1rem;background:#fff;border-top:1px solid var(--border-50);display:flex;flex-wrap:wrap;gap:.375rem;}
+.reply-chip{padding:.5rem .875rem;border:1px solid var(--primary);border-radius:9999px;background:#fff;font-size:.8125rem;font-weight:500;color:var(--primary);cursor:pointer;transition:background .15s,color .15s;font-family:inherit;}
+.reply-chip:hover{background:var(--primary);color:#fff;}
+
+/* Searchable dropdown for language selection */
+.lang-picker{width:100%;display:flex;flex-direction:column;gap:.5rem;}
+.lang-search{width:100%;padding:.625rem .875rem;border:1px solid var(--border);border-radius:.75rem;font-size:.875rem;font-family:inherit;color:var(--foreground);outline:none;background:#fff;transition:border-color .15s;}
+.lang-search:focus{border-color:var(--primary);}
+.lang-list{max-height:11rem;overflow-y:auto;border:1px solid var(--border-50);border-radius:.75rem;background:#fff;}
+.lang-list::-webkit-scrollbar{width:6px;}
+.lang-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.lang-item{display:flex;align-items:center;gap:.625rem;padding:.5rem .75rem;font-size:.875rem;color:var(--foreground);cursor:pointer;border-bottom:1px solid var(--border-50);background:#fff;transition:background .12s;width:100%;text-align:left;border-left:none;border-right:none;border-top:none;font-family:inherit;}
+.lang-item:last-child{border-bottom:none;}
+.lang-item:hover{background:var(--muted);color:var(--primary);}
+.lang-item .flag{font-size:1.125rem;line-height:1;}
+.lang-empty{padding:.75rem;text-align:center;color:var(--foreground-60);font-size:.8125rem;}
+
+/* Branding footer */
+.chat-brand{padding:.5rem 1rem;background:#fafaf8;border-top:1px solid var(--border-50);font-size:.6875rem;color:var(--foreground-60);text-align:center;letter-spacing:.04em;}
+.chat-brand strong{color:var(--foreground);font-weight:600;}
+
+/* Plan card inside chat */
+.plan-card{background:#fff;border:2px solid var(--primary);border-radius:1rem;padding:1rem;margin-top:.25rem;max-width:90%;box-shadow:0 4px 16px rgba(212,85,58,0.15);}
+.plan-card .plan-name{font-size:.6875rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;}
+.plan-card .plan-price{font-size:1.875rem;font-weight:900;font-family:'Outfit',sans-serif;color:var(--foreground);margin:.125rem 0 .625rem;line-height:1;}
+.plan-card .plan-price small{font-size:.8125rem;color:var(--foreground-60);font-weight:500;}
+.plan-card ul{list-style:none;margin:0 0 .75rem;padding:0;}
+.plan-card li{display:flex;align-items:center;gap:.5rem;font-size:.75rem;margin-bottom:.3125rem;color:var(--foreground-70);}
+.plan-card li svg{color:var(--primary);width:13px;height:13px;flex-shrink:0;}
+.plan-card .btn{width:100%;padding:.625rem;font-size:.875rem;}
+
+@media (max-width:480px){
+  .chat-widget{bottom:0;right:0;left:0;width:100%;height:100vh;border-radius:0;}
+}
+
+/* =========================================================
+   SCROLL REVEAL — single subtle fade-in only
+   ========================================================= */
+[data-reveal]{opacity:0;transform:translateY(20px);transition:opacity .6s ease, transform .6s ease}
+[data-reveal].visible{opacity:1;transform:none}
+[data-reveal-delay="1"]{transition-delay:.08s}
+[data-reveal-delay="2"]{transition-delay:.16s}
+[data-reveal-delay="3"]{transition-delay:.24s}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  [data-reveal]{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+============================================================ -->
+<header class="site-header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="#" class="logo">getvolley.ai</a>
+
+      <nav class="nav-desktop">
+        <a href="#how">How It Works</a>
+        <a href="#showcase">Languages</a>
+        <a href="#tutors">Tutors</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="header-cta">
+        <a href="#cta" class="btn btn-primary btn-sm">Get my plan</a>
+      </div>
+
+      <button class="menu-btn icon-btn" id="menuBtn" aria-label="Toggle menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+
+    <nav class="mobile-menu" id="mobileMenu">
+      <a href="#how">How It Works</a>
+      <a href="#showcase">Languages</a>
+      <a href="#tutors">Tutors</a>
+      <a href="#faq">FAQ</a>
+      <a href="#cta" class="btn btn-primary btn-sm" style="margin-top:.5rem">Get my plan</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="container">
+    <div class="hero-content text-center" data-reveal>
+      <h1>
+        Learn a language with a <br class="hide-mobile">
+        <span class="underlined">private tutor</span> and
+        <span class="accent">daily AI practice.</span>
+      </h1>
+
+      <p class="hero-sub">
+        4 × 30-minute live lessons with a real tutor each month, plus unlimited AI practice in the app every day.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#cta" class="btn btn-primary">Get my plan</a>
+        <p class="hero-meta">2-minute placement test · matched with a tutor</p>
+      </div>
+
+      <div class="avatar-stack-wrap">
+        <div class="avatar-stack">
+          <div class="av"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop&crop=faces&auto=format&q=80" alt="Learner"></div>
+          <div class="av"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=128&h=128&fit=crop&crop=faces&auto=format&q=80" alt="Learner"></div>
+          <div class="av"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=128&h=128&fit=crop&crop=faces&auto=format&q=80" alt="Learner"></div>
+          <div class="av"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=128&h=128&fit=crop&crop=faces&auto=format&q=80" alt="Learner"></div>
+        </div>
+        <p style="font-size:.875rem;font-weight:500;color:var(--foreground-70)">Loved by 1,000+ learners</p>
+      </div>
+    </div>
+
+    <div class="hero-cards">
+      <div class="feat-card" data-reveal data-reveal-delay="1">
+        <div class="feat-card-image"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=400&fit=crop&auto=format&q=80" alt="Listen — person wearing headphones"></div>
+        <div class="feat-card-icon blue"><i data-lucide="headphones"></i></div>
+        <h3>Listen</h3>
+        <p>Hear a phrase, understand the context.</p>
+      </div>
+      <div class="feat-card" data-reveal data-reveal-delay="2">
+        <div class="feat-card-image"><img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=600&h=400&fit=crop&auto=format&q=80" alt="Speak — microphone in conversation"></div>
+        <div class="feat-card-icon green"><i data-lucide="mic"></i></div>
+        <h3>Speak</h3>
+        <p>Say it back, get instant feedback.</p>
+      </div>
+      <div class="feat-card" data-reveal data-reveal-delay="3">
+        <div class="feat-card-image"><img src="https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=600&h=400&fit=crop&auto=format&q=80" alt="Remember — flashcards and notes"></div>
+        <div class="feat-card-icon purple"><i data-lucide="repeat"></i></div>
+        <h3>Remember</h3>
+        <p>Review it later, build retention.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     THE WEEKLY LOOP (Dark)
+============================================================ -->
+<section class="dark-section section" id="how">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow secondary">How it works</span>
+      <h2>The weekly loop.</h2>
+    </div>
+
+    <div class="loop-grid">
+      <div class="loop-card" data-reveal data-reveal-delay="1">
+        <div class="loop-num">1</div>
+        <div class="loop-icon primary-bg"><i data-lucide="book-open" class="icon-lg"></i></div>
+        <h3>Practice in the app</h3>
+        <p>Do a 15-min lesson on your commute. Have an AI conversation at lunch. Review flashcards before bed.</p>
+      </div>
+
+      <div class="loop-card" data-reveal data-reveal-delay="2">
+        <div class="loop-num">2</div>
+        <div class="loop-icon secondary-bg"><i data-lucide="brain" class="icon-lg"></i></div>
+        <h3>AI tracks everything</h3>
+        <p>Every word you say, every mistake you make, every card you review — logged and analyzed automatically.</p>
+      </div>
+
+      <div class="loop-card" data-reveal data-reveal-delay="3">
+        <div class="loop-num">3</div>
+        <div class="loop-icon blue-bg"><i data-lucide="users" class="icon-lg"></i></div>
+        <h3>Your tutor reviews it</h3>
+        <p>Once a week, your tutor looks at what you did, spots what's working, and adjusts your plan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     APP UI SHOWCASE
+============================================================ -->
+<section class="showcase-section section" id="showcase">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <h2>Here's what you get every month.</h2>
+    </div>
+
+    <div class="showcase-grid">
+      <!-- AI Tutor -->
+      <div class="show-card show-card-dark" data-reveal data-reveal-delay="1">
+        <div class="show-icon show-icon-light-on-dark"><i data-lucide="message-circle"></i></div>
+        <h3>AI tutor, on demand</h3>
+        <p class="desc">Talk about ordering coffee, asking for directions, or whatever your tutor assigned.</p>
+
+        <div class="mock-chat mock-chat-dark">
+          <div class="bubble bubble-them">Hej! Vad vill du beställa idag?</div>
+          <div class="bubble bubble-me">Jag skulle vilja ha en kaffe, tack!</div>
+          <div class="bubble bubble-them">Bra! Vill du ha mjölk också?</div>
+          <div class="chat-input-row">
+            <div class="mic-btn"><i data-lucide="mic" class="icon-sm"></i></div>
+            <div class="chat-input-fake">Your turn — speak now</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Full App -->
+      <div class="show-card show-card-light" data-reveal data-reveal-delay="2">
+        <div class="show-icon show-icon-secondary"><i data-lucide="target"></i></div>
+        <h3>The full Volley app</h3>
+        <p class="desc">Audio lessons you can do on a walk. Voice chat to practice speaking. Flashcards from your mistakes.</p>
+
+        <div class="mock-list">
+          <div class="mock-list-item">
+            <div class="mock-list-icon" style="background:#EFF6FF;color:#2563EB"><i data-lucide="headphones" class="icon-md"></i></div>
+            <div>
+              <div class="mock-list-title">Listen</div>
+              <div class="mock-list-sub">AI audio lessons</div>
+            </div>
+          </div>
+          <div class="mock-list-item">
+            <div class="mock-list-icon" style="background:#F0FDF4;color:#16A34A"><i data-lucide="mic" class="icon-md"></i></div>
+            <div>
+              <div class="mock-list-title">Speak</div>
+              <div class="mock-list-sub">Voice conversations</div>
+            </div>
+          </div>
+          <div class="mock-list-item">
+            <div class="mock-list-icon" style="background:#FAF5FF;color:#9333EA"><i data-lucide="repeat" class="icon-md"></i></div>
+            <div>
+              <div class="mock-list-title">Remember</div>
+              <div class="mock-list-sub">Smart flashcards</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Real Tutor -->
+      <div class="show-card show-card-green" data-reveal data-reveal-delay="3">
+        <div class="show-icon show-icon-light-on-green"><i data-lucide="users"></i></div>
+        <h3>A real tutor</h3>
+        <p class="desc">Reviews your week · adjusts your plan</p>
+
+        <div class="mock-chat mock-chat-green">
+          <div class="tutor-row">
+            <div class="tutor-avatar"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=128&h=128&fit=crop&crop=faces&auto=format&q=80" alt="Tutor"></div>
+            <div class="bubble bubble-tutor-them">You did 4 sessions this week. Your restaurant vocab jumped to 87%.</div>
+          </div>
+          <div class="bubble bubble-tutor-me">I still freeze on follow-up questions though.</div>
+          <div class="tutor-row">
+            <div class="tutor-avatar"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=128&h=128&fit=crop&crop=faces&auto=format&q=80" alt="Tutor"></div>
+            <div class="bubble bubble-tutor-them">Normal at this stage. I set up 2 targeted conversations for this week to fix that.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TUTOR HIGHLIGHT
+============================================================ -->
+<section class="tutor-section" id="tutors">
+  <div class="container">
+    <div class="tutor-card" data-reveal>
+      <div class="tutor-grid">
+        <div class="tutor-img-wrap">
+          <div class="tutor-img-glow"></div>
+          <div class="tutor-img">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&h=600&fit=crop&crop=faces&auto=format&q=80" alt="Language Tutor">
+          </div>
+        </div>
+
+        <div class="tutor-content">
+          <span class="eyebrow secondary">Your Tutor</span>
+          <h2>A real language tutor who sees your progress and adjusts your plan every week.</h2>
+          <p>Not a chatbot. Not an automated email. A real language tutor who opens your practice data every week — how many sessions you did, which words you're retaining, where you're stuck — and works with you on your blindspots.</p>
+          <ul class="tutor-points">
+            <li><span class="check-circle"><i data-lucide="check" class="icon-xs"></i></span><span>Reviews your sessions weekly</span></li>
+            <li><span class="check-circle"><i data-lucide="check" class="icon-xs"></i></span><span>Spots your weak points</span></li>
+            <li><span class="check-circle"><i data-lucide="check" class="icon-xs"></i></span><span>Sets your next week's focus</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DAILY PRACTICE
+============================================================ -->
+<section class="daily-section">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow primary">Inside the app</span>
+      <h2>What daily practice looks like.</h2>
+    </div>
+
+    <div class="daily-grid">
+      <div class="daily-card" data-reveal data-reveal-delay="1">
+        <div class="daily-preview red">
+          <div class="daily-tag">Jag skulle vilja ha...</div>
+          <div class="daily-translation">I would like to have...</div>
+          <div class="daily-bars"><span class="r"></span><span class="g"></span><span class="b"></span></div>
+        </div>
+        <h3>Mistakes become flashcards</h3>
+        <p>Say something wrong in a conversation? It becomes a flashcard you'll see again tomorrow.</p>
+      </div>
+
+      <div class="daily-card" data-reveal data-reveal-delay="2">
+        <div class="daily-preview green">
+          <div class="daily-chat-mini">
+            <div class="b start">Vad vill du beställa?</div>
+            <div class="b end">En kaffe, tack!</div>
+            <div class="b start">Bra! Vill du ha mjölk?</div>
+          </div>
+        </div>
+        <h3>AI tutor that adjusts to you</h3>
+        <p>Order coffee one week, debate politics the next. It meets you where you are.</p>
+      </div>
+
+      <div class="daily-card" data-reveal data-reveal-delay="3">
+        <div class="daily-preview purple">
+          <div class="daily-audio-circle"><i data-lucide="play"></i></div>
+          <div class="daily-audio-label">Lyssna och upprepa:</div>
+          <div class="daily-audio-text">Var ligger tågstationen?</div>
+        </div>
+        <h3>Audio lessons on the go</h3>
+        <p>15-minute listen-and-repeat lessons. Do them on a walk, in the car, wherever.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BUILT FOR PEOPLE
+============================================================ -->
+<section class="built-section">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <h2>Built for people who are <br><span class="italic-accent">serious</span> this time.</h2>
+    </div>
+
+    <div class="built-grid">
+      <div class="built-card" data-reveal data-reveal-delay="1">
+        <div class="built-avatar"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=128&h=128&fit=crop&crop=faces&auto=format&q=80" alt="Avatar"></div>
+        <h3>Busy professionals</h3>
+        <p>15 minutes a day, a tutor who plans around your schedule. No 2-hour study blocks required.</p>
+      </div>
+      <div class="built-card" data-reveal data-reveal-delay="2">
+        <div class="built-avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop&crop=faces&auto=format&q=80" alt="Avatar"></div>
+        <h3>App dropout survivors</h3>
+        <p>You've downloaded Duolingo, Babbel, Pimsleur. This time there's a real tutor who notices when you skip a day.</p>
+      </div>
+      <div class="built-card" data-reveal data-reveal-delay="3">
+        <div class="built-avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=128&h=128&fit=crop&crop=faces&auto=format&q=80" alt="Avatar"></div>
+        <h3>Serious learners</h3>
+        <p>You want to actually hold a conversation, not just collect streaks. Your tutor pushes you past the plateau.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIALS
+============================================================ -->
+<section class="testi-section">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <h2>Real results.</h2>
+    </div>
+
+    <div class="testi-grid">
+      <div class="testi-card" data-reveal data-reveal-delay="1">
+        <div class="stars">
+          <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+        </div>
+        <p class="quote">"After 3 months I ordered dinner in French and understood the waiter's follow-up question. The weekly lessons are what got me there — I actually showed up every day."</p>
+        <div class="testi-foot">
+          <div class="testi-avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=128&h=128&fit=crop&crop=faces&auto=format&q=80" alt="Sarah K."></div>
+          <div>
+            <div class="testi-name">Sarah K.</div>
+            <div class="testi-meta">Learning French · 3 months in</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card" data-reveal data-reveal-delay="2">
+        <div class="stars">
+          <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+        </div>
+        <p class="quote">"I quit Duolingo twice and Babbel once. The difference here is my tutor messaged me when I skipped Tuesday and gave me a shorter session to get back on track. I haven't missed a week since."</p>
+        <div class="testi-foot">
+          <div class="testi-avatar"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=128&h=128&fit=crop&crop=faces&auto=format&q=80" alt="Anders L."></div>
+          <div>
+            <div class="testi-name">Anders L.</div>
+            <div class="testi-meta">Learning Swedish · 4 months in</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card" data-reveal data-reveal-delay="3">
+        <div class="stars">
+          <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+        </div>
+        <p class="quote">"The AI practice alone is worth it, but my tutor noticed I kept avoiding past tense and made that my focus for two weeks. That one adjustment unlocked a ton of new conversations."</p>
+        <div class="testi-foot">
+          <div class="testi-avatar"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=128&h=128&fit=crop&crop=faces&auto=format&q=80" alt="Marcus T."></div>
+          <div>
+            <div class="testi-name">Marcus T.</div>
+            <div class="testi-meta">Learning Spanish · 2 months in</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+============================================================ -->
+<section class="faq-section" id="faq">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <h2>Questions</h2>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q"><span class="q-text">What is Volley and how is it different?</span><span class="faq-toggle"><i data-lucide="chevron-down"></i></span></button>
+        <div class="faq-a"><p>Volley is a language learning app paired with a real human tutor. Between lessons, you practice daily with an AI conversation partner, personalized audio lessons, and smart flashcards. What makes it different is the loop: your tutor reviews your actual practice data each week and adjusts your plan so you're always working on the right thing — not just following a generic course.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span class="q-text">What problem will Volley solve for me?</span><span class="faq-toggle"><i data-lucide="chevron-down"></i></span></button>
+        <div class="faq-a"><p>Most people fail at language learning because they either lose motivation, don't know what to focus on, or never get real speaking practice. Volley solves all three. The AI gives you daily conversation practice, the tutor keeps you accountable and fixes your weak spots, and the whole plan is built around your specific goals — not a one-size-fits-all curriculum.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span class="q-text">Why is this better than Duolingo or Babbel?</span><span class="faq-toggle"><i data-lucide="chevron-down"></i></span></button>
+        <div class="faq-a"><p>Apps like Duolingo are great for streaks but not for speaking. You can do 500 lessons and still freeze in a real conversation. Volley has you speaking from day one with AI that adapts in real time, plus a tutor who catches the gaps an algorithm can't — like why you keep avoiding past tense, or that your pronunciation is close but not quite right.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span class="q-text">What languages do you offer?</span><span class="faq-toggle"><i data-lucide="chevron-down"></i></span></button>
+        <div class="faq-a"><p>We support 20 languages: Spanish, French, Italian, German, Portuguese, Swedish, Norwegian, Danish, Dutch, Russian, Japanese, Korean, Mandarin Chinese, Arabic, Turkish, Polish, Greek, Hindi, Thai, and Indonesian. Your tutor and AI practice are fully tailored to whichever language you choose.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span class="q-text">Is the tutor a real person?</span><span class="faq-toggle"><i data-lucide="chevron-down"></i></span></button>
+        <div class="faq-a"><p>Yes. A real language tutor who reviews your practice data each week — how many sessions you did, your retention rates, where you got stuck — and uses your 30-minute lesson to work on exactly what you need.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span class="q-text">Can I cancel anytime?</span><span class="faq-toggle"><i data-lucide="chevron-down"></i></span></button>
+        <div class="faq-a"><p>Yes — cancel or pause with one click, no questions asked. And if you're not happy within the first 30 days, we'll give you a full refund. We'd rather you try it risk-free than wonder what if.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FINAL CTA
+============================================================ -->
+<section class="final-section" id="cta">
+  <div class="container">
+    <div class="final-inner" data-reveal>
+      <div class="final-text">
+        <h2>Take a 2-minute placement test. Get matched with a tutor. Start your first lesson this week.</h2>
+        <a href="#" class="btn btn-primary">Get my plan</a>
+      </div>
+
+      <div class="final-tutor">
+        <div class="final-tutor-img-wrap">
+          <div class="final-tutor-img">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop&crop=faces&auto=format&q=80" alt="Tutor">
+          </div>
+          <div class="online-badge">Online</div>
+        </div>
+        <div class="final-learners">
+          <div class="av"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&fit=crop&crop=faces&auto=format&q=80" alt=""></div>
+          <div class="av"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=faces&auto=format&q=80" alt=""></div>
+          <div class="av"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=faces&auto=format&q=80" alt=""></div>
+        </div>
+        <p class="final-meta">1,000+ learners practicing this week</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="site-footer" id="contact">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="logo">getvolley.ai</div>
+      <nav class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Support</a>
+      </nav>
+      <div class="footer-copy">© 2026 getvolley.ai</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     CHATBOT ONBOARDING WIDGET (Intercom-style, floating)
+============================================================ -->
+<div id="quizModal" class="chat-widget">
+  <div class="chat-header">
+    <div class="chat-avatar">V</div>
+    <div class="chat-title">
+      <div class="name">Let's match you with the right plan</div>
+      <div class="status">Volley Assistant · Online</div>
+    </div>
+    <button class="chat-close" id="closeQuiz" aria-label="Close chat"><i data-lucide="x"></i></button>
+  </div>
+
+  <div class="chat-body" id="chatBody"></div>
+
+  <div class="chat-replies" id="chatReplies"></div>
+
+  <div class="chat-brand">Powered by <strong>Volley</strong></div>
+</div>
+
+<!-- ============================================================
+     SCRIPTS
+============================================================ -->
+<!-- Lucide icons (high-quality, consistent) -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script>
+(function(){
+  // Render Lucide icons
+  if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    window.lucide.createIcons();
+  }
+
+  // Mobile menu toggle
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (menuBtn && mobileMenu) {
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    });
+  }
+
+  // Smooth scroll (skip empty anchors) and handle CTA quiz
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const href = a.getAttribute('href');
+      if (!href || href === '#') return;
+
+      // Intercept any get my plan / cta links to open the chatbot modal
+      if (href === '#cta' || a.textContent.toLowerCase().includes('get my plan')) {
+        e.preventDefault();
+        document.getElementById('quizModal').classList.add('active');
+        return;
+      }
+
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Chatbot Modal Logic
+  const quizModal = document.getElementById('quizModal');
+  const closeQuiz = document.getElementById('closeQuiz');
+  const chatBody = document.getElementById('chatBody');
+  const chatReplies = document.getElementById('chatReplies');
+
+  // Full list of languages supported by Volley
+  const VOLLEY_LANGUAGES = [
+    { flag:'🇪🇸', name:'Spanish' },
+    { flag:'🇫🇷', name:'French' },
+    { flag:'🇩🇪', name:'German' },
+    { flag:'🇮🇹', name:'Italian' },
+    { flag:'🇵🇹', name:'Portuguese' },
+    { flag:'🇯🇵', name:'Japanese' },
+    { flag:'🇰🇷', name:'Korean' },
+    { flag:'🇨🇳', name:'Mandarin Chinese' },
+    { flag:'🇹🇼', name:'Cantonese' },
+    { flag:'🇸🇦', name:'Arabic' },
+    { flag:'🇮🇱', name:'Hebrew' },
+    { flag:'🇷🇺', name:'Russian' },
+    { flag:'🇳🇱', name:'Dutch' },
+    { flag:'🇸🇪', name:'Swedish' },
+    { flag:'🇳🇴', name:'Norwegian' },
+    { flag:'🇩🇰', name:'Danish' },
+    { flag:'🇫🇮', name:'Finnish' },
+    { flag:'🇵🇱', name:'Polish' },
+    { flag:'🇨🇿', name:'Czech' },
+    { flag:'🇹🇷', name:'Turkish' },
+    { flag:'🇬🇷', name:'Greek' },
+    { flag:'🇮🇳', name:'Hindi' },
+    { flag:'🇮🇳', name:'Tamil' },
+    { flag:'🇮🇳', name:'Bengali' },
+    { flag:'🇮🇳', name:'Urdu' },
+    { flag:'🇹🇭', name:'Thai' },
+    { flag:'🇻🇳', name:'Vietnamese' },
+    { flag:'🇮🇩', name:'Indonesian' },
+    { flag:'🇵🇭', name:'Filipino (Tagalog)' },
+    { flag:'🇿🇦', name:'Afrikaans' },
+    { flag:'🇮🇪', name:'Irish (Gaeilge)' }
+  ];
+
+  const flow = [
+    { bot: "Hey there! 👋 I'm here to build your personalized learning plan. Which language are you learning?", type:'language' },
+    { bot: "Great pick! What's your current level?", options: ['Absolute beginner','I know some words','Basic conversations','Intermediate','Advanced','Fluent — just polishing'] },
+    { bot: "Got it. And what's your main goal?", options: ['✈️ Travel preparation','💼 Career & business','👨‍👩‍👧 Speaking with family','🎓 School / exam prep (DELF, JLPT…)','🏡 Moving abroad','💕 Partner / dating','🎬 Movies & culture','🎉 Just for fun'] },
+    { bot: "How much time can you commit per week?", options: ['Under 1 hour','1–3 hours','3–5 hours','5–10 hours','10+ hours — I\'m all in'] },
+    { bot: "And how would you prefer to practice?", options: ['🎙 Mostly speaking','✍️ Mostly writing','📚 Reading & grammar','🎧 Listening','⚖️ A mix of everything'] },
+    { bot: "Last one — when do you want to be conversational by?", options: ['🚀 ASAP (1 month)','3 months','6 months','1 year','No rush'] }
+  ];
+
+  let stepIndex = 0;
+
+  function scrollChat(){ chatBody.scrollTop = chatBody.scrollHeight; }
+
+  function addBotMessage(text){
+    const row = document.createElement('div');
+    row.className = 'msg-row bot';
+    row.innerHTML = `<div class="mini-avatar">V</div><div class="msg-bubble">${text}</div>`;
+    chatBody.appendChild(row);
+    scrollChat();
+  }
+
+  function addUserMessage(text){
+    const row = document.createElement('div');
+    row.className = 'msg-row user';
+    row.innerHTML = `<div class="msg-bubble">${text}</div>`;
+    chatBody.appendChild(row);
+    scrollChat();
+  }
+
+  function showTyping(){
+    const row = document.createElement('div');
+    row.className = 'msg-row bot typing-row';
+    row.innerHTML = `<div class="mini-avatar">V</div><div class="typing"><span></span><span></span><span></span></div>`;
+    chatBody.appendChild(row);
+    scrollChat();
+    return row;
+  }
+
+  const answers = { language:null, level:null, goal:null, time:null, style:null, timeline:null };
+  const answerKeys = ['language','level','goal','time','style','timeline'];
+
+  function renderReplies(step){
+    chatReplies.innerHTML = '';
+    if(step.type === 'language'){
+      renderLanguagePicker();
+    } else {
+      step.options.forEach(opt => {
+        const chip = document.createElement('button');
+        chip.className = 'reply-chip';
+        chip.textContent = opt;
+        chip.addEventListener('click', () => handleReply(opt));
+        chatReplies.appendChild(chip);
+      });
+    }
+  }
+
+  function renderLanguagePicker(){
+    const wrap = document.createElement('div');
+    wrap.className = 'lang-picker';
+    wrap.innerHTML = `
+      <input type="text" class="lang-search" id="langSearch" placeholder="🔍 Search 30+ languages…" autocomplete="off">
+      <div class="lang-list" id="langList"></div>
+    `;
+    chatReplies.appendChild(wrap);
+
+    const search = wrap.querySelector('#langSearch');
+    const list = wrap.querySelector('#langList');
+
+    function paint(filter){
+      const f = (filter||'').toLowerCase().trim();
+      const items = VOLLEY_LANGUAGES.filter(l => l.name.toLowerCase().includes(f));
+      list.innerHTML = '';
+      if(items.length === 0){
+        list.innerHTML = '<div class="lang-empty">No matches — we\'ll add it soon!</div>';
+        return;
+      }
+      items.forEach(l => {
+        const btn = document.createElement('button');
+        btn.className = 'lang-item';
+        btn.innerHTML = `<span class="flag">${l.flag}</span><span>${l.name}</span>`;
+        btn.addEventListener('click', () => handleReply(`${l.flag} ${l.name}`));
+        list.appendChild(btn);
+      });
+    }
+    paint('');
+    search.addEventListener('input', e => paint(e.target.value));
+    setTimeout(() => search.focus(), 300);
+  }
+
+  function handleReply(answer){
+    addUserMessage(answer);
+    answers[answerKeys[stepIndex]] = answer;
+    chatReplies.innerHTML = '';
+    stepIndex++;
+    const typing = showTyping();
+    setTimeout(() => {
+      typing.remove();
+      if(stepIndex < flow.length){
+        addBotMessage(flow[stepIndex].bot);
+        renderReplies(flow[stepIndex]);
+      } else {
+        showPlan();
+      }
+    }, 800);
+  }
+
+  function recommendPlan(a){
+    // Match plan tier by goal + time + timeline
+    const heavy = /10\+|5–10|ASAP|3 months/.test(a.time + ' ' + a.timeline);
+    const light = /Under 1|No rush/.test(a.time + ' ' + a.timeline);
+    const examOrAbroad = /exam|Moving abroad|Career/i.test(a.goal);
+
+    if(heavy || examOrAbroad){
+      return { name:'Volley Elite', price:249, sessions:'8× 30-min live tutor sessions/mo', extras:['Priority tutor matching','Custom curriculum + weekly progress report'] };
+    }
+    if(light){
+      return { name:'Volley Lite', price:79, sessions:'2× 30-min live tutor sessions/mo', extras:['Self-paced AI roadmap','Smart flashcard review'] };
+    }
+    return { name:'Volley Pro', price:149, sessions:'4× 30-min live tutor sessions/mo', extras:['Personalized weekly curriculum','Smart flashcard review'] };
+  }
+
+  function showPlan(){
+    const plan = recommendPlan(answers);
+    const langName = (answers.language || 'your language').replace(/^\S+\s/,''); // strip leading flag
+
+    addBotMessage(`Got everything I need — thanks! Here\'s the plan I built around <strong>${langName}</strong>, a <strong>${(answers.level||'').toLowerCase()}</strong> starting point, and your goal of <strong>${(answers.goal||'').replace(/^\S+\s/,'').toLowerCase()}</strong>.`);
+    setTimeout(() => {
+      const row = document.createElement('div');
+      row.className = 'msg-row bot';
+      row.innerHTML = `<div class="mini-avatar">V</div>
+        <div class="plan-card">
+          <div class="plan-name">Recommended for you</div>
+          <div style="font-size:1.125rem;font-weight:700;color:var(--foreground);font-family:'Outfit',sans-serif;letter-spacing:-0.01em;">${plan.name} · ${langName}</div>
+          <div class="plan-price">$${plan.price}<small>/mo</small></div>
+          <ul>
+            <li><i data-lucide="check-circle"></i> ${plan.sessions}</li>
+            <li><i data-lucide="check-circle"></i> Unlimited AI voice practice in ${langName}</li>
+            <li><i data-lucide="check-circle"></i> Tailored to <strong>${(answers.style||'').replace(/^\S+\s/,'').toLowerCase()}</strong></li>
+            ${plan.extras.map(e => `<li><i data-lucide="check-circle"></i> ${e}</li>`).join('')}
+            <li><i data-lucide="check-circle"></i> On track for <strong>${(answers.timeline||'').replace(/^\S+\s/,'').toLowerCase()}</strong></li>
+          </ul>
+          <button class="btn btn-primary">Start 7-day free trial</button>
+        </div>`;
+      chatBody.appendChild(row);
+      window.lucide && window.lucide.createIcons();
+      scrollChat();
+      renderReplies({ options:['Restart ↻','See other plans'] });
+      chatReplies.querySelectorAll('.reply-chip').forEach(chip => {
+        chip.addEventListener('click', e => {
+          if(chip.textContent.includes('Restart')) resetChat();
+          else { addUserMessage(chip.textContent); addBotMessage('All plans live on the pricing page — you can switch anytime after starting your trial.'); chatReplies.innerHTML = ''; }
+        });
+      });
+    }, 500);
+  }
+
+  function resetChat(){
+    chatBody.innerHTML = '';
+    stepIndex = 0;
+    startChat();
+  }
+
+  function startChat(){
+    chatReplies.innerHTML = '';
+    const typing = showTyping();
+    setTimeout(() => {
+      typing.remove();
+      addBotMessage(flow[0].bot);
+      renderReplies(flow[0]);
+    }, 600);
+  }
+
+  if(closeQuiz) closeQuiz.addEventListener('click', () => quizModal.classList.remove('active'));
+
+  // Hook into the existing CTA interception (re-init chat each time the modal opens)
+  document.querySelectorAll('a[href="#cta"]').forEach(a => {
+    a.addEventListener('click', () => {
+      // Wait for modal to be activated by the smooth-scroll handler above
+      setTimeout(() => { resetChat(); }, 50);
+    });
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const btn = item.querySelector('.faq-q');
+    btn.addEventListener('click', () => {
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // Image fallback — if any image fails, swap to a guaranteed placeholder
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', () => {
+      const w = img.width || 200, h = img.height || 200;
+      img.src = `https://placehold.co/${w}x${h}/E8E6E1/17151D?text=•`;
+    }, { once: true });
+  });
+
+  // Scroll reveal — single subtle fade, runs once
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+})();
+</script>
+
+</body>
+</html>

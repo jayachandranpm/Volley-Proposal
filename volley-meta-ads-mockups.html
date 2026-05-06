@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volley Meta Ad Mockups</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fb-bg: #121214;
+    --fb-card: #ffffff;
+    --fb-text: #050505;
+    --fb-text-secondary: #65676B;
+    --fb-divider: #CED0D4;
+    --fb-primary: #1877F2;
+    --primary: #D4553A;
+    --tutor-green: #1F8A63;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: radial-gradient(circle at top, #1e1e2f, #121214);
+    color: #ffffff;
+    padding: 60px 20px;
+    min-height: 100vh;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .header h1 { font-size: 2.5rem; margin-bottom: 12px; font-weight: 700; letter-spacing: -0.02em; }
+  .header p { color: #a0a0b0; max-width: 600px; margin: 0 auto; font-size: 1.1rem; }
+  
+  .ads-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  @media(min-width: 1024px) {
+    .ads-container { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  /* Facebook Post Card */
+  .fb-card {
+    background: var(--fb-card);
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    color: var(--fb-text);
+  }
+  
+  /* Post Header */
+  .fb-header {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 10px;
+  }
+  .fb-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 20px;
+  }
+  .fb-meta { flex: 1; }
+  .fb-name { font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 4px; }
+  .fb-sponsored { font-size: 13px; color: var(--fb-text-secondary); display: flex; align-items: center; gap: 4px; }
+  .fb-more { color: var(--fb-text-secondary); }
+
+  /* Body Copy */
+  .fb-body {
+    padding: 4px 16px 16px;
+    font-size: 15px;
+    white-space: pre-wrap;
+    color: var(--fb-text);
+  }
+
+  /* Media Container (4:5 Ratio essentially) */
+  .fb-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background: #000;
+    overflow: hidden;
+  }
+  .fb-media img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+
+  /* Overlays */
+  .overlay-text {
+    position: absolute;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    backdrop-filter: blur(4px);
+    line-height: 1.4;
+  }
+  
+  /* Angle 1 TikTok style overlay */
+  .tiktok-style {
+    position: absolute;
+    bottom: 20px; left: 16px; right: 60px;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+    font-size: 16px; font-weight: 600; line-height: 1.3;
+  }
+  .tiktok-actions {
+    position: absolute;
+    bottom: 20px; right: 12px;
+    display: flex; flex-direction: column; gap: 16px;
+    align-items: center; color: #fff;
+    filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.6));
+  }
+  .tiktok-icon { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; }
+
+  /* Angle 2 Split Screen */
+  .split-screen {
+    position: absolute; inset: 0;
+    display: flex;
+  }
+  .split-left, .split-right { flex: 1; position: relative; }
+  .split-right { 
+    background: rgba(255,255,255,0.15); 
+    backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    display: flex; flex-direction: column; justify-content: center; padding: 20px; 
+    border-left: 1px solid rgba(255,255,255,0.3);
+  }
+  .split-label {
+    position: absolute; top: 16px; left: 16px; 
+    background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); color: #fff; 
+    font-size: 11px; font-weight: 700; padding: 6px 12px; border-radius: 20px; z-index: 10;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+
+  /* Angle 3 Chat UI Overlay */
+  .chat-ui-overlay {
+    position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+    width: 90%;
+    background: rgba(255,255,255,0.2); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.4); border-radius: 24px;
+    padding: 16px;
+    display: flex; flex-direction: column; gap: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+  .bubble {
+    padding: 12px 16px; border-radius: 20px; font-size: 14px; max-width: 85%; line-height: 1.4;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); font-weight: 500; position: relative;
+  }
+  .bubble.me { background: var(--primary); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+  .bubble.them { background: #fff; color: var(--fb-text); align-self: flex-start; border-bottom-left-radius: 4px; }
+
+  /* Post Footer (CTA area) */
+  .fb-footer {
+    background: #F0F2F5;
+    padding: 10px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid var(--fb-divider);
+  }
+  .fb-footer-info { display: flex; flex-direction: column; gap: 2px; }
+  .fb-url { font-size: 12px; color: var(--fb-text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+  .fb-headline { font-weight: 600; font-size: 16px; color: var(--fb-text); }
+  .fb-cta {
+    background: #D8DADF; border: none; padding: 8px 16px; border-radius: 6px;
+    font-weight: 600; font-size: 14px; cursor: pointer; color: var(--fb-text);
+    transition: background 0.2s;
+  }
+  .fb-cta:hover { background: #CED0D4; }
+
+  /* Social Actions */
+  .fb-actions {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px; background: #fff;
+    color: var(--fb-text-secondary); font-weight: 600; font-size: 14px;
+    border-top: 1px solid var(--fb-divider);
+  }
+  .fb-action-btn { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+
+  /* ============ NEW VISUAL UPGRADES ============ */
+  /* Massive hook text */
+  .hook-mega {
+    position: absolute; z-index: 3;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800; letter-spacing: -0.02em; line-height: 1.05;
+    color: #fff; text-shadow: 0 2px 20px rgba(0,0,0,0.6);
+  }
+  .hook-highlight {
+    background: #FFD400; color: #000;
+    padding: 0 6px; border-radius: 4px; display: inline-block;
+    transform: rotate(-1deg);
+  }
+  .hook-strike { text-decoration: line-through; text-decoration-color: var(--primary); text-decoration-thickness: 4px; opacity: 0.85; }
+
+  /* Floating stat cards */
+  .stat-card {
+    position: absolute; z-index: 4;
+    background: rgba(255,255,255,0.95); color: #000;
+    padding: 10px 14px; border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+    font-weight: 700; font-size: 13px;
+    display: flex; align-items: center; gap: 8px;
+    backdrop-filter: blur(10px);
+  }
+  .stat-card .num { font-size: 22px; color: var(--primary); font-weight: 800; line-height: 1; }
+  .stat-card.dark { background: rgba(0,0,0,0.75); color: #fff; }
+  .stat-card.dark .num { color: #FFD400; }
+
+  /* Sponsor badge near top */
+  .ribbon {
+    position: absolute; top: 14px; left: 14px; z-index: 4;
+    background: #000; color: #fff;
+    font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    padding: 6px 10px; border-radius: 4px;
+    border-left: 3px solid var(--primary);
+  }
+  .stars { color: #FFD400; font-size: 14px; letter-spacing: 1px; }
+
+  /* Verified pill */
+  .verify {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--tutor-green); color: #fff;
+    font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  /* VS comparison row */
+  .vs-row {
+    position: absolute; z-index: 3;
+    bottom: 90px; left: 16px; right: 16px;
+    display: flex; gap: 10px; align-items: stretch;
+  }
+  .vs-col {
+    flex: 1; background: rgba(255,255,255,0.12); backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.25); border-radius: 14px;
+    padding: 12px; color: #fff;
+  }
+  .vs-col .label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; margin-bottom: 6px; font-weight: 700; }
+  .vs-col .val { font-size: 20px; font-weight: 800; line-height: 1.1; }
+  .vs-col.win { background: var(--primary); border-color: var(--primary); }
+  .vs-divider {
+    align-self: center; background: #fff; color: #000;
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 12px;
+  }
+
+  /* Big bottom CTA chip */
+  .cta-chip {
+    position: absolute; bottom: 16px; left: 16px; right: 16px; z-index: 4;
+    background: #fff; color: #000;
+    padding: 12px 16px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-weight: 700; font-size: 14px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+  }
+  .cta-chip .arrow {
+    background: var(--primary); color: #fff;
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* POV label */
+  .pov-label {
+    position: absolute; top: 14px; right: 14px; z-index: 4;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
+    color: #fff; font-size: 11px; font-weight: 700;
+    padding: 6px 10px; border-radius: 20px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .pov-label::before {
+    content: ''; width: 8px; height: 8px; border-radius: 50%;
+    background: #ff4444;
+  }
+
+  /* Inline icon helper */
+  .inline-ico { width: 14px; height: 14px; display: inline-block; vertical-align: -2px; stroke-width: 2.5; }
+  .inline-ico-lg { width: 18px; height: 18px; display: inline-block; vertical-align: -3px; stroke-width: 2.5; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Meta Ads Strategy Mockups</h1>
+  <p>Visualizing the 3 core creative angles using HTML, CSS, and Unsplash imagery.</p>
+</div>
+
+<div class="ads-container">
+
+  <!-- ============================================
+       AD 1: The App Dropout
+       ============================================ -->
+  <div class="fb-card">
+    <div class="fb-header">
+      <div class="fb-avatar">V</div>
+      <div class="fb-meta">
+        <div class="fb-name">Volley</div>
+        <div class="fb-sponsored">Sponsored <i data-lucide="globe" class="icon-xs" style="width:12px;height:12px"></i></div>
+      </div>
+      <div class="fb-more"><i data-lucide="more-horizontal"></i></div>
+    </div>
+    
+<div class="fb-body">Ditch the toxic streaks. <i data-lucide="trophy" class="inline-ico"></i> Speak from week one.</div>
+
+    <div class="fb-media">
+      <img src="https://images.unsplash.com/photo-1598257006458-087169a1f08d?w=800&h=1000&fit=crop&crop=faces&auto=format&q=80" alt="Frustrated adult at phone" style="position:relative; z-index:0;">
+      <!-- Top fade for ribbon legibility -->
+      <div style="position:absolute; inset:0; background:linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 25%, transparent 45%, rgba(0,0,0,0.85) 100%); z-index:1;"></div>
+
+      <div class="pov-label">LIVE · POV</div>
+      <div class="ribbon">@language_struggles</div>
+
+      <!-- Floating stat card -->
+      <div class="stat-card" style="top:70px; right:14px;">
+        <div class="num">300</div>
+        <div style="line-height:1.1; font-size:11px; text-transform:uppercase; color:#666; display:flex; align-items:center; gap:4px;">
+          <span>Day<br>Streak</span>
+          <i data-lucide="flame" style="color:#FF6B35; width:16px; height:16px;"></i>
+        </div>
+      </div>
+
+      <!-- MEGA hook text bottom -->
+      <div class="hook-mega" style="bottom:120px; left:16px; right:16px; font-size:30px;">
+        <span class="hook-strike">300-day streak.</span><br>
+        Still can't order a <span class="hook-highlight">coffee.</span>
+      </div>
+
+      <div class="cta-chip">
+        <div>
+          <div style="font-size:10px; color:#888; text-transform:uppercase; letter-spacing:1px; display:flex; align-items:center; gap:4px;">Volley · Verified <i data-lucide="badge-check" style="width:12px; height:12px; color:var(--tutor-green);"></i></div>
+          <div>Speak in 4 weeks. For real.</div>
+        </div>
+        <div class="arrow"><i data-lucide="arrow-right"></i></div>
+      </div>
+    </div>
+
+    <div class="fb-footer">
+      <div class="fb-footer-info">
+        <div class="fb-url">getvolley.ai</div>
+        <div class="fb-headline">Learn a language for real this time.</div>
+      </div>
+      <button class="fb-cta">Start Free Trial</button>
+    </div>
+  </div>
+
+  <!-- ============================================
+       AD 2: The Busy Professional
+       ============================================ -->
+  <div class="fb-card">
+    <div class="fb-header">
+      <div class="fb-avatar">V</div>
+      <div class="fb-meta">
+        <div class="fb-name">Volley</div>
+        <div class="fb-sponsored">Sponsored <i data-lucide="globe" class="icon-xs" style="width:12px;height:12px"></i></div>
+      </div>
+      <div class="fb-more"><i data-lucide="more-horizontal"></i></div>
+    </div>
+    
+    <div class="fb-body">Fluent in 15 mins/day. <i data-lucide="hourglass" class="inline-ico"></i> Built for busy people.</div>
+
+    <div class="fb-media" style="background:#0a0a14;">
+      <!-- Background image -->
+      <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&h=1000&fit=crop&crop=faces&auto=format&q=80" alt="Busy Professional" style="opacity:0.55;">
+      <div style="position:absolute; inset:0; background:linear-gradient(135deg, rgba(10,10,20,0.6) 0%, rgba(10,10,20,0.95) 100%); z-index:1;"></div>
+
+      <div class="ribbon" style="background:var(--tutor-green); border-color:#fff; display:flex; align-items:center; gap:6px;"><i data-lucide="briefcase" style="width:12px;height:12px;"></i> For Professionals</div>
+      <div class="pov-label" style="background:rgba(255,255,255,0.15);"><i data-lucide="timer" class="inline-ico" style="margin-right:4px;"></i>15 MIN/DAY</div>
+
+      <!-- MEGA hook -->
+      <div class="hook-mega" style="top:80px; left:16px; right:16px; font-size:34px; text-align:left;">
+        Fluent French.<br>
+        <span style="color:#FFD400;">Zero free time.</span>
+      </div>
+
+      <!-- VS COMPARISON -->
+      <div class="vs-row" style="bottom:100px;">
+        <div class="vs-col">
+          <div class="label" style="display:flex; align-items:center; gap:5px;"><i data-lucide="book-open" style="width:12px;height:12px;"></i> Old way</div>
+          <div class="val" style="text-decoration:line-through; opacity:0.7;">2 hrs/day classroom</div>
+        </div>
+        <div class="vs-divider">VS</div>
+        <div class="vs-col win">
+          <div class="label" style="display:flex; align-items:center; gap:5px;"><i data-lucide="zap" style="width:12px;height:12px;" fill="#fff"></i> Volley</div>
+          <div class="val">15 min + 1 call/wk</div>
+        </div>
+      </div>
+
+      <!-- Bottom CTA chip -->
+      <div class="cta-chip">
+        <div>
+          <div style="display:flex; align-items:center; gap:4px;">
+            <span style="display:inline-flex; gap:1px; color:#FFD400;">
+              <i data-lucide="star" fill="#FFD400" style="width:13px;height:13px;"></i>
+              <i data-lucide="star" fill="#FFD400" style="width:13px;height:13px;"></i>
+              <i data-lucide="star" fill="#FFD400" style="width:13px;height:13px;"></i>
+              <i data-lucide="star" fill="#FFD400" style="width:13px;height:13px;"></i>
+              <i data-lucide="star" fill="#FFD400" style="width:13px;height:13px;"></i>
+            </span>
+            <span style="color:#666; font-size:11px;">4.9 · 12,000 learners</span>
+          </div>
+          <div>See how 15 mins works</div>
+        </div>
+        <div class="arrow"><i data-lucide="arrow-right"></i></div>
+      </div>
+    </div>
+
+    <div class="fb-footer">
+      <div class="fb-footer-info">
+        <div class="fb-url">getvolley.ai</div>
+        <div class="fb-headline">Your private tutor + daily AI practice.</div>
+      </div>
+      <button class="fb-cta">Learn More</button>
+    </div>
+  </div>
+
+  <!-- ============================================
+       AD 3: The Real-World Prep
+       ============================================ -->
+  <div class="fb-card">
+    <div class="fb-header">
+      <div class="fb-avatar">V</div>
+      <div class="fb-meta">
+        <div class="fb-name">Volley</div>
+        <div class="fb-sponsored">Sponsored <i data-lucide="globe" class="icon-xs" style="width:12px;height:12px"></i></div>
+      </div>
+      <div class="fb-more"><i data-lucide="more-horizontal"></i></div>
+    </div>
+    
+    <div class="fb-body">Coffee shouldn't feel like a pop quiz. <i data-lucide="coffee" class="inline-ico"></i></div>
+
+    <div class="fb-media">
+      <!-- Cafe / Coffee -->
+      <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=1000&fit=crop&crop=faces&auto=format&q=80" alt="Parisian Cafe">
+      <!-- Strong gradient: dark top for hook, dark bottom for chat -->
+      <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 35%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.85) 100%); z-index:1;"></div>
+
+      <div class="ribbon" style="display:flex; align-items:center; gap:5px;"><i data-lucide="map-pin" style="width:12px;height:12px;"></i> PARIS · 7e</div>
+      <div class="pov-label">REC · 0:14</div>
+
+      <!-- HOOK (compact, top) -->
+      <div class="hook-mega" style="top:60px; left:16px; right:16px; font-size:26px; text-align:left;">
+        Practice the <span class="hook-highlight">exact</span> chat.<br>
+        <span style="font-weight:600; font-size:15px; opacity:0.95; display:block; margin-top:6px;">Before you ever say it out loud.</span>
+      </div>
+
+      <!-- Single rich chat overlay - no floating stat to avoid collapse -->
+      <div class="chat-ui-overlay" style="bottom:90px; padding:14px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:2px;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <div style="width:8px;height:8px;background:#1F8A63;border-radius:50%; box-shadow:0 0 8px #1F8A63;"></div>
+            <span style="font-size:11px; text-transform:uppercase; color:rgba(255,255,255,0.95); font-weight:700; letter-spacing:1px;">AI Waiter · Live</span>
+          </div>
+          <span class="verify" style="display:inline-flex; align-items:center; gap:3px;"><i data-lucide="badge-check" style="width:11px;height:11px;"></i> Tutor Reviewed</span>
+        </div>
+        <div class="bubble them" style="border-bottom-left-radius:4px;">Bonjour. Vous êtes seul ?</div>
+        <div class="bubble me" style="border-bottom-right-radius:4px;">Je voudrais un croissant, s'il vous plaît.</div>
+        <div style="display:flex; align-items:center; gap:10px; padding:4px 4px 0;">
+          <div style="background:var(--primary);color:#fff;width:34px;height:34px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 8px 16px rgba(212,85,58,0.4);border:2px solid #fff; flex-shrink:0;">
+            <i data-lucide="mic" style="width:16px;height:16px;"></i>
+          </div>
+          <div style="flex:1; display:flex; gap:3px; align-items:center; height:24px;">
+            <div style="width:3px; height:8px; background:#fff; border-radius:2px;"></div>
+            <div style="width:3px; height:18px; background:#fff; border-radius:2px;"></div>
+            <div style="width:3px; height:12px; background:#fff; border-radius:2px;"></div>
+            <div style="width:3px; height:22px; background:#fff; border-radius:2px;"></div>
+            <div style="width:3px; height:10px; background:#fff; border-radius:2px;"></div>
+            <div style="width:3px; height:16px; background:#fff; border-radius:2px;"></div>
+            <div style="width:3px; height:8px; background:#fff; border-radius:2px;"></div>
+            <div style="width:3px; height:14px; background:#fff; border-radius:2px;"></div>
+            <div style="width:3px; height:20px; background:#fff; border-radius:2px;"></div>
+            <div style="width:3px; height:9px; background:#fff; border-radius:2px;"></div>
+          </div>
+          <span style="color:#fff; font-size:11px; font-weight:700;">0:08</span>
+        </div>
+      </div>
+
+      <div class="cta-chip">
+        <div>
+          <div style="font-size:10px; color:#888; text-transform:uppercase; letter-spacing:1px;">Free 7-day trial</div>
+          <div>Take the 2-min placement quiz</div>
+        </div>
+        <div class="arrow"><i data-lucide="arrow-right"></i></div>
+      </div>
+    </div>
+
+    <div class="fb-footer">
+      <div class="fb-footer-info">
+        <div class="fb-url">getvolley.ai</div>
+        <div class="fb-headline">Practice real conversations.</div>
+      </div>
+      <button class="fb-cta">Start Free Trial</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script>
+  window.lucide.createIcons();
+</script>
+</body>
+</html>

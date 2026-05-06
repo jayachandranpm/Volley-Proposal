@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volley Growth Audit · Deliverables</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #D4553A;
+    --primary-dark: #b8472f;
+    --bg: #0f0e13;
+    --bg-card: #1a1820;
+    --border: rgba(255,255,255,0.08);
+    --text: #f5f4f0;
+    --text-muted: #a0a0b0;
+    --accent: #FFD400;
+    --green: #1F8A63;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 20% 0%, rgba(212,85,58,0.15) 0%, transparent 40%),
+      radial-gradient(circle at 80% 100%, rgba(31,138,99,0.1) 0%, transparent 40%);
+    line-height: 1.6;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* Top nav */
+  .top-nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(15,14,19,0.7);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .top-nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 0;
+  }
+  .logo {
+    font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.125rem;
+    letter-spacing: -0.02em;
+    display: flex; align-items: center; gap: .5rem;
+  }
+  .logo-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 0 12px var(--primary);
+  }
+  .nav-links { display: flex; gap: 1.5rem; font-size: .875rem; font-weight: 500; }
+  .nav-links a { color: var(--text-muted); text-decoration: none; transition: color .2s; }
+  .nav-links a:hover { color: var(--text); }
+
+  /* Hero */
+  .hero {
+    padding: 6rem 0 4rem;
+    text-align: center;
+  }
+  .badge {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .375rem .875rem;
+    background: rgba(212,85,58,0.15);
+    border: 1px solid rgba(212,85,58,0.3);
+    color: var(--primary);
+    border-radius: 9999px;
+    font-size: .75rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .08em;
+    margin-bottom: 1.5rem;
+  }
+  .badge-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 0 8px var(--primary);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .4; }
+  }
+  h1 {
+    font-family: 'Outfit', sans-serif; font-weight: 900;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.25rem;
+  }
+  h1 .accent {
+    background: linear-gradient(135deg, var(--primary) 0%, #ff8c6e 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    max-width: 640px; margin: 0 auto;
+    color: var(--text-muted); font-size: 1.125rem;
+  }
+  .meta {
+    display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+    margin-top: 2rem;
+    font-size: .8125rem; color: var(--text-muted);
+  }
+  .meta strong { color: var(--text); font-weight: 600; }
+
+  /* Section */
+  section { padding: 3rem 0; }
+  .section-label {
+    font-size: .75rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .12em;
+    color: var(--primary); margin-bottom: .5rem;
+  }
+  h2 {
+    font-family: 'Outfit', sans-serif; font-weight: 800;
+    font-size: 2rem; letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+  }
+
+  /* Deliverable cards */
+  .grid { display: grid; gap: 1.25rem; }
+  .grid-2 { grid-template-columns: 1fr; }
+  @media (min-width: 768px) {
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 1.25rem;
+    padding: 1.75rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex; flex-direction: column;
+    transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    position: relative; overflow: hidden;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(212,85,58,0.4);
+    background: #1f1d27;
+  }
+  .card-icon {
+    width: 2.75rem; height: 2.75rem;
+    border-radius: .75rem;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(212,85,58,0.15);
+    color: var(--primary);
+    margin-bottom: 1rem;
+  }
+  .card-icon svg { width: 22px; height: 22px; }
+  .card-tag {
+    display: inline-block; align-self: flex-start;
+    font-size: .6875rem; font-weight: 700;
+    padding: .25rem .5rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    border-radius: 4px;
+    text-transform: uppercase; letter-spacing: .08em;
+    margin-bottom: 1rem;
+  }
+  .card-tag.live { background: rgba(31,138,99,0.15); color: var(--green); border-color: rgba(31,138,99,0.3); }
+  .card h3 {
+    font-family: 'Outfit', sans-serif; font-weight: 700;
+    font-size: 1.375rem; letter-spacing: -0.01em;
+    margin-bottom: .5rem;
+  }
+  .card p {
+    color: var(--text-muted);
+    font-size: .9375rem;
+    margin-bottom: 1.5rem;
+    flex: 1;
+  }
+  .card-cta {
+    display: inline-flex; align-items: center; gap: .375rem;
+    color: var(--primary); font-weight: 600; font-size: .9375rem;
+    transition: gap .2s;
+  }
+  .card:hover .card-cta { gap: .625rem; }
+
+  /* Featured (live demo) cards larger */
+  .card.featured { padding: 2rem; }
+  .card.featured h3 { font-size: 1.625rem; }
+
+  /* Doc cards (smaller) */
+  .grid-3 { grid-template-columns: 1fr; }
+  @media (min-width: 768px) {
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  /* Hypothesis box */
+  .hypothesis {
+    background: linear-gradient(135deg, rgba(212,85,58,0.1) 0%, rgba(31,138,99,0.05) 100%);
+    border: 1px solid rgba(212,85,58,0.2);
+    border-left: 3px solid var(--primary);
+    border-radius: 1rem;
+    padding: 1.75rem 2rem;
+    margin: 1rem 0 2.5rem;
+  }
+  .hypothesis-label {
+    font-size: .75rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .12em;
+    color: var(--primary); margin-bottom: .5rem;
+  }
+  .hypothesis p {
+    font-family: 'Outfit', sans-serif; font-weight: 600;
+    font-size: 1.25rem; line-height: 1.4; letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 0;
+    margin-top: 4rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: .875rem;
+  }
+  footer a { color: var(--primary); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="container top-nav-inner">
+    <div class="logo">
+      <span class="logo-dot"></span>
+      Volley · Growth Audit
+    </div>
+    <div class="nav-links">
+      <a href="#deliverables">Deliverables</a>
+      <a href="#docs">Docs</a>
+      <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero container">
+  <div class="badge"><span class="badge-dot"></span> Submission · May 2026</div>
+  <h1>Volley Growth Audit<br><span class="accent">Deliverables</span></h1>
+  <p>A landing page variant, three Meta ad angles with high-fidelity mockups, and a one-page testing plan with kill rules.</p>
+  <div class="meta">
+    <span><strong>3</strong> deliverables</span>
+    <span><strong>21-day</strong> test plan</span>
+    <span><strong>$4,500</strong> budget</span>
+    <span>Optimizing for <strong>LTV ÷ CAC @ Day 90</strong></span>
+  </div>
+</header>
+
+<section class="container">
+  <div class="hypothesis">
+    <div class="hypothesis-label">Core Hypothesis</div>
+    <p>People don't churn from language apps because the apps are bad. They churn because they're alone. Volley's wedge is accountability — and we're under-selling it.</p>
+  </div>
+</section>
+
+<section class="container" id="deliverables">
+  <div class="section-label">Live demos</div>
+  <h2>Open the builds</h2>
+  <div class="grid grid-2">
+
+    <a href="lingoflex-landing.html" class="card featured">
+      <span class="card-tag live">● Live build</span>
+      <div class="card-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+      </div>
+      <h3>Landing Page Variant</h3>
+      <p>Production-ready single-file build with glassmorphism nav, intent-led CTA flow, and an Intercom-style chatbot that collects 6 signals across 31 supported languages — then delivers a personalized plan inside the chat.</p>
+      <span class="card-cta">Open landing page →</span>
+    </a>
+
+    <a href="volley-meta-ads-mockups.html" class="card featured">
+      <span class="card-tag live">● Live build</span>
+      <div class="card-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8h20"/><circle cx="6" cy="6" r="0.5" fill="currentColor"/></svg>
+      </div>
+      <h3>Meta Ad Mockups · 3 Angles</h3>
+      <p>High-fidelity HTML mockups of all three ad creatives — App Dropout, Busy Professional, Real-World Prep. Bold hooks, social proof chips, dark presentation backdrop. Designed to be scroll-stopping in feed.</p>
+      <span class="card-cta">View ad mockups →</span>
+    </a>
+
+  </div>
+</section>
+
+<section class="container" id="docs">
+  <div class="section-label">Strategy docs</div>
+  <h2>Read the rationale</h2>
+  <div class="grid grid-3">
+
+    <a href="volley-deliverables.md" class="card">
+      <span class="card-tag">Markdown</span>
+      <div class="card-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <h3>Cover Doc</h3>
+      <p>TL;DR, the single hypothesis I'm testing, what changed in each deliverable, and how I'd measure success.</p>
+      <span class="card-cta">Read cover doc →</span>
+    </a>
+
+    <a href="volley-meta-ads-strategy.md" class="card">
+      <span class="card-tag">Markdown</span>
+      <div class="card-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20"/><path d="M2 12h20"/></svg>
+      </div>
+      <h3>Ad Strategy</h3>
+      <p>Audience, hook, body copy, headline, and Midjourney prompts for all three angles. Plus the rationale for why each could win — or lose.</p>
+      <span class="card-cta">Read strategy →</span>
+    </a>
+
+    <a href="volley-testing-plan.md" class="card">
+      <span class="card-tag">Markdown</span>
+      <div class="card-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 12l3-3 4 4 5-5"/></svg>
+      </div>
+      <h3>Testing Plan</h3>
+      <p>3-phase sequencing, the metric hierarchy, hard kill rules with day-level triggers, and what I'd cut first if Week 1 came in soft.</p>
+      <span class="card-cta">Read plan →</span>
+    </a>
+
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    Built with vanilla HTML · CSS · JS · Hosted on GitHub Pages<br>
+    <a href="volley-deliverables.md">View full submission</a>
+  </div>
+</footer>
+
+</body>
+</html>
