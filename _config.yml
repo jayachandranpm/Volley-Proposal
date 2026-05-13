@@ -1,6 +1,6 @@
 title: jayachandranpm
 description: Published with Tell the World
-theme: jekyll-theme-cayman
+theme: jekyll-theme-minima
 permalink: /:year/:month/:day/:title/
 markdown: kramdown
 plugins:
