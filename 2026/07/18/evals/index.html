@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evals</title>
+<meta name="description" content="">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:#1d1f21;color:#b5e853;line-height:1.7}
+.header{padding:40px 20px;text-align:center;color:#b5e853;
+  background-color:#1d1f21;}
+.header h1{font-size:28px;margin-bottom:6px}
+.header .meta{opacity:0.8;font-size:14px}
+.content{max-width:720px;margin:32px auto;padding:0 20px}
+.content h1,.content h2,.content h3{margin:24px 0 12px;color:#b5e853}
+.content p{margin:12px 0}
+.content a{color:#63c0f5}
+.content code{background:#63c0f511;padding:2px 6px;border-radius:4px;font-size:14px}
+.content blockquote{border-left:3px solid #63c0f5;padding:8px 16px;margin:16px 0;opacity:0.85}
+.content ul{padding-left:24px;margin:12px 0}
+.content li{margin:4px 0}
+.tags{margin:24px 0}
+.footer{text-align:center;padding:32px;font-size:12px;opacity:0.5}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>Evals</h1>
+<div class="meta">2026-07-18</div>
+</div>
+<div class="content">
+<div class="tags"><span style="display:inline-block;padding:2px 10px;margin:2px;border-radius:12px;background:#63c0f522;color:#63c0f5;font-size:12px;">agents</span><span style="display:inline-block;padding:2px 10px;margin:2px;border-radius:12px;background:#63c0f522;color:#63c0f5;font-size:12px;">evaluators</span><span style="display:inline-block;padding:2px 10px;margin:2px;border-radius:12px;background:#63c0f522;color:#63c0f5;font-size:12px;">evaluations</span><span style="display:inline-block;padding:2px 10px;margin:2px;border-radius:12px;background:#63c0f522;color:#63c0f5;font-size:12px;">Evals</span><span style="display:inline-block;padding:2px 10px;margin:2px;border-radius:12px;background:#63c0f522;color:#63c0f5;font-size:12px;">AI</span><span style="display:inline-block;padding:2px 10px;margin:2px;border-radius:12px;background:#63c0f522;color:#63c0f5;font-size:12px;">AI Agents</span></div>
+<br>
+<p>I would like to suggest an Evals feature and share a few observations based on my experience building agents.</p>
+<br>
+<p>While building an agent, evaluating its responses before deploying it to production is very important. However, I feel evaluation is equally valuable after the agent is deployed. As the agent interacts with real users, Evals could help identify recurring issues, monitor performance over time, and ensure that updates to prompts, tools, or guardrails continue to produce high-quality responses.</p>
+<br>
+<p>At the moment, I usually test the agent manually by trying different prompts, reviewing the responses, and making adjustments to the instructions, tool parameters, and guardrails. Even after deployment, understanding how the agent performs often involves manually reviewing conversations and user feedback. This process is quite repetitive and can take a considerable amount of time.</p>
+<br>
+<p>I was wondering if an Agent Evals feature could help make this process easier.</p>
+<br>
+<p>The idea behind Evals is to evaluate an agent&#39;s responses using different evaluation methods and provide an overall view of where the agent performs well and where it could be improved throughout its lifecycle.</p>
+<br>
+<ol>
+<li>Feedback Evals</li>
+</ol>
+<br>
+<p>For example, if I build a support agent, it would be useful to collect feedback directly from users.</p>
+<br>
+<p>Traditionally, chatbot assistants have used a thumbs-up/thumbs-down feedback mechanism. I think a similar approach could work well here, with a bit more structure for agent evaluation.</p>
+<br>
+<p>Each response could have a feedback option (such as a thumbs-down button). When selected, users could choose one or more reasons from a list, such as:</p>
+<br>
+<ul>
+<li>Incorrect tool used</li>
+<li>Inaccurate response</li>
+<li>Incorrect references</li>
+<li>Hallucinated information</li>
+<li>Incomplete answer</li>
+<li>Other</li>
+</ul>
+<br>
+<p>Each category could also be assigned a severity score (for example, 1 to 5). Over time, this could provide a clear picture of the areas where the agent is struggling and help prioritize improvements based on real user feedback.</p>
+<br>
+<p>Having this aggregated across evaluation runs would make it easier to identify recurring issues instead of reviewing conversations one by one.</p>
+<br>
+<ol>
+<li>LLM as a Judge</li>
+</ol>
+<br>
+<p>Another evaluation method could be LLM as a Judge.</p>
+<br>
+<p>The agent&#39;s responses could be anonymized and evaluated by a stronger flagship LLM against a predefined rubric such as:</p>
+<br>
+<ul>
+<li>Accuracy</li>
+<li>Completeness</li>
+<li>Relevance</li>
+<li>Tool usage</li>
+<li>Instruction following</li>
+<li>Groundedness</li>
+</ul>
+<br>
+<p>Anonymizing the responses before evaluation could help reduce model-specific bias and make the evaluation more objective.</p>
+<br>
+<ol>
+<li>Automated Evals</li>
+</ol>
+<br>
+<p>It would also be useful if developers could create their own evaluation metrics.</p>
+<br>
+<p>For example, they could define:</p>
+<br>
+<ul>
+<li>A user query</li>
+<li>An expected response or expected behavior</li>
+<li>A custom scoring rubric</li>
+</ul>
+<br>
+<p>Instead of requiring an exact text match, the evaluation could compare the semantic similarity between the expected and actual responses. This would make it easier to build regression tests and verify that changes to prompts, tools, or guardrails have not negatively affected the agent&#39;s quality.</p>
+<br>
+<p>Another possibility could be supporting automated evaluation of tool execution. For example, validating whether the correct tool was invoked, whether the expected sequence of tools was followed, whether the required parameters were passed correctly, or whether the agent should have used a tool but instead responded directly. This could be especially useful for workflow-oriented agents.</p>
+<br>
+<ol>
+<li>Agentic Evals</li>
+</ol>
+<br>
+<p>Additionally, it would be interesting if there were an agentic element while creating Evals.</p>
+<br>
+<p>Based on the evaluation results, the system could intelligently analyze the agent&#39;s performance and provide actionable suggestions. For example, it could:</p>
+<br>
+<ul>
+<li>Suggest improvements to prompts or instructions.</li>
+<li>Recommend changes to tool configurations or guardrails.</li>
+<li>Highlight recurring failure patterns.</li>
+<li>Suggest additional evaluation metrics based on observed failures.</li>
+<li>Recommend new test cases that cover edge cases the agent is currently missing.</li>
+</ul>
+<br>
+<p>This could make the evaluation process much more efficient, especially when iterating on an agent.</p>
+<br>
+<p>Overall, I feel a feature like this could significantly reduce manual testing effort, provide better visibility into agent performance, and help developers continuously improve their agents both before and after deployment.</p>
+<br>
+<p>These are just a few ideas based on my experience while building agents. If something similar is already planned or already being explored, I&#39;d be excited to see it. I would love to hear everyone&#39;s thoughts.</p>
+
+</div>
+<div class="footer">Published with Tell the World</div>
+</body>
+</html>
