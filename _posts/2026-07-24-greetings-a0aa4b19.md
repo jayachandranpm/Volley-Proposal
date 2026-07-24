@@ -1,0 +1,60 @@
+---
+layout: null
+title: "Greetings"
+date: 2026-07-24 14:44:21 +0000
+tags: ["greetings"]
+ttw_theme: "tactile"
+---
+
+<!DOCTYPE html>
+<html lang="en" data-tell-the-world-theme="tactile">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Greetings</title>
+<meta name="description" content="">
+<meta name="theme-color" content="#f5f2f0">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{color-scheme:light}
+body{font-family:Georgia, "Times New Roman", serif;font-size:18.0px;
+  background:#f5f2f0;color:#303030;line-height:1.7}
+.header{padding:40px 20px;text-align:center;color:#303030;
+  background-color:#f5f2f0;}
+.header>*{max-width:680px;margin-left:auto;margin-right:auto}
+.header h1{font-family:Georgia, "Times New Roman", serif;font-size:clamp(28px,6vw,44px);line-height:1.2;margin-bottom:8px}
+.header .meta{opacity:0.8;font-size:14px}
+.content{max-width:680px;margin:32px auto;padding:0 20px}
+.content h1,.content h2,.content h3,.content h4,.content h5,.content h6{font-family:Georgia, "Times New Roman", serif;margin:24px 0 12px;color:#303030;line-height:1.3}
+.content p{margin:12px 0}
+.content a{color:#e98300}
+.content code{background:#e9830018;padding:2px 6px;border-radius:12px;font-size:.9em}
+.content pre{overflow-x:auto;margin:16px 0;padding:16px;background:#e9830018;border:1px solid #e9830035;border-radius:12px}
+.content pre code{padding:0;background:transparent;white-space:pre}
+.content blockquote{border-left:3px solid #e98300;padding:8px 16px;margin:16px 0;opacity:0.85}
+.content ul,.content ol{padding-left:24px;margin:12px 0}
+.content li{margin:4px 0}
+.content li.task{list-style:none;margin-left:-22px}
+.content li.task input{margin-right:8px;accent-color:#e98300}
+.content img{display:block;max-width:100%;height:auto;margin:20px auto;border-radius:12px}
+.content table{width:100%;border-collapse:collapse;margin:18px 0;display:block;overflow-x:auto}
+.content th,.content td{border:1px solid #e9830055;padding:8px 10px;text-align:left}
+.content th{background:#e9830018}
+.tags{margin:24px 0}
+.footer{text-align:center;padding:32px;font-size:12px;opacity:0.5}
+</style>
+</head>
+<body data-tell-the-world-theme="tactile">
+<div class="header">
+<h1>Greetings</h1>
+<div class="meta">2026-07-24</div>
+</div>
+<div class="content">
+<div class="tags"><span style="display:inline-block;padding:2px 10px;margin:2px;border-radius:12px;background:#e9830022;color:#e98300;font-size:12px;">greetings</span></div>
+<p>Hello World!</p>
+
+</div>
+<div class="footer">Published with Tell the World</div>
+</body>
+</html>
